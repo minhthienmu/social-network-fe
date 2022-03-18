@@ -32,6 +32,7 @@ module.exports = {
         ],
         "@typescript-eslint/camelcase": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
+        "prettier/prettier": ["error", { endOfLine: "auto" }],
         // Interface must prefix with I
         /*"@typescript-eslint/naming-convention": [
             "error",
