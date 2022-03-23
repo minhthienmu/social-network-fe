@@ -1,14 +1,16 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Switch } from "react-router-dom";
-import { mainRoutes } from "../constants/routePath";
+import { mainRoutes, otherRoutes } from "../constants/routePath";
 
-const Loading = lazy(() => import("../component/Loading"));
+const Home = lazy(() => import("pages/Home"));
+const Login = lazy(() => import("pages/Login"));
 
-export const MainRoutes = () => {
+export const Routes = () => {
     return (
         <Suspense fallback={null}>
             <Switch>
-                <Route path={mainRoutes.Loading} exact component={Loading} />
+                <Route path={mainRoutes.Home} exact component={Home} />
+                <Route path={otherRoutes.Login} exact component={Login} />
             </Switch>
         </Suspense>
     );

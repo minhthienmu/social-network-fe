@@ -1,18 +1,22 @@
-import React from "react";
+import { mainRoutes } from "constants/routePath";
+import React, { Fragment } from "react";
 import Header from "../component/Header";
-import { MainRoutes } from "../routes/routes";
+import { Routes } from "../routes/routes";
 
+const mainRoute = Object.values(mainRoutes).map((i) => i);
 class MainContainer extends React.Component {
     render() {
         return (
-            <>
-                <div className="header">
-                    <Header />
-                </div>
+            <Fragment>
+                {mainRoute.includes(window.location.pathname) ? (
+                    <div className="header">
+                        <Header />
+                    </div>
+                ) : null}
                 <div className="content">
-                    <MainRoutes />
+                    <Routes />
                 </div>
-            </>
+            </Fragment>
         );
     }
 }

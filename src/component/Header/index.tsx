@@ -1,8 +1,21 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-class Header extends Component {
+interface Props {}
+interface State {
+    isNoti: boolean;
+}
+
+class Header extends Component<Props, State> {
+    state = {
+        isNoti: false,
+    };
+
+    toggleisNoti = () => this.setState({ isNoti: !this.state.isNoti });
+
     render() {
+        const notiClass = `${this.state.isNoti ? " show" : ""}`;
+
         return (
             <div className="nav-header bg-white shadow-xs border-0">
                 <div className="nav-top">
@@ -26,6 +39,17 @@ class Header extends Component {
                         />
                     </div>
                 </form>
+
+                <span
+                    className={`p-2 pointer text-center ms-auto menu-icon ${notiClass}`}
+                    id="dropdownMenu3"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    onClick={this.toggleisNoti}
+                >
+                    <span className="dot-count bg-warning"></span>
+                    <i className="feather-bell font-xl text-current"></i>
+                </span>
             </div>
         );
     }

@@ -1,4 +1,7 @@
 export const mainRoutes = Object.freeze({
     Home: "/",
-    Loading: "/loading",
+});
+
+export const otherRoutes = Object.freeze({
+    Login: "/login",
 });
