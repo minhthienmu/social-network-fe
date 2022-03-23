@@ -1,6 +1,5 @@
 import Leftnav from "component/LeftNav";
 import React, { Component, Fragment } from "react";
-//import { history } from "../../App";
 import CreatePost from "../../component/CreatePost";
 import Loading from "../../component/Loading";
 import PostView from "../../component/PostView";
@@ -14,7 +13,6 @@ interface State {
 class Home extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
-        console.log("Constructor");
         this.state = {
             isLogin: false,
         };

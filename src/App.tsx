@@ -1,14 +1,14 @@
 import React from "react";
-import { Router } from "react-router";
+import { BrowserRouter as Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import MainContainer from "./containers/MainContainer";
 //import Header from "component/Header";
 
-const history = createBrowserHistory();
+export const history = createBrowserHistory();
 class App extends React.Component {
     render() {
         return (
-            <Router history={history}>
+            <Router>
                 <MainContainer />
             </Router>
         );
