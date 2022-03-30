@@ -19,7 +19,7 @@ class Leftnav extends Component {
                                         <span>News Feed</span>
                                     </Link>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <Link to="/myfeed" className="nav-content-bttn open-font">
                                         <i className="feather-award btn-round-md bg-red-gradiant me-3"></i>
                                         <span>My feed</span>
@@ -30,11 +30,11 @@ class Leftnav extends Component {
                                         <i className="feather-award btn-round-md bg-red-gradiant me-3"></i>
                                         <span>Followers</span>
                                     </Link>
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
 
-                        <div className="nav-wrap bg-white bg-transparent-card rounded-xxl shadow-xss pt-3 pb-1">
+                        {/* <div className="nav-wrap bg-white bg-transparent-card rounded-xxl shadow-xss pt-3 pb-1">
                             <div className="nav-caption fw-600 font-xssss text-grey-500">
                                 <span></span> Account
                             </div>
@@ -54,7 +54,7 @@ class Leftnav extends Component {
                                     </Link>
                                 </li>
                             </ul>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

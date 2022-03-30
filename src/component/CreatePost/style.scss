@@ -1,0 +1,14 @@
+.modal-header {
+    & .header {
+        width: 100%;
+        text-align: center;
+    }
+}
+.modal-body {
+    & .body {
+        & .text-box {
+            width: 100%;
+            resize: none;
+        }
+    }
+}

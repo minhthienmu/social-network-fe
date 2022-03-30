@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Comment from "./Comment";
 
 interface Props {
     id: number;
@@ -11,8 +12,8 @@ interface Props {
 }
 
 interface State {
-    isOpen: boolean;
-    isActive: boolean;
+    isLike: boolean;
+    isToggleComment: boolean;
 }
 
 class PostView extends Component<Props, State> {
@@ -20,19 +21,22 @@ class PostView extends Component<Props, State> {
         super(props);
 
         this.state = {
-            isOpen: false,
-            isActive: false,
+            isLike: false,
+            isToggleComment: false,
         };
     }
 
-    toggleOpen = () => this.setState({ isOpen: !this.state.isOpen });
-    toggleActive = () => this.setState({ isActive: !this.state.isActive });
+    toggleLike = () => {
+        this.setState({ isLike: !this.state.isLike });
+    };
+
+    toggleComment = () => {
+        this.setState({ isToggleComment: !this.state.isToggleComment });
+    };
 
     render() {
         const { user, time, content, avatar, postImage, postVideo, id } = this.props;
-
-        const menuClass = `${this.state.isOpen ? " show" : ""}`;
-        const emojiClass = `${this.state.isActive ? " active" : ""}`;
+        const { isLike, isToggleComment } = this.state;
 
         return (
             <div className="card w-100 shadow-xss rounded-xxl border-0 p-4 mb-3">
@@ -60,7 +64,7 @@ class PostView extends Component<Props, State> {
                     ""
                 )}
                 <div className="card-body p-0 me-lg-5">
-                    <p className="fw-500 text-grey-500 lh-26 font-xssss w-100 mb-2">
+                    <p className="fw-400 text-content lh-26 font-xssss w-100 mb-2">
                         {content}{" "}
                         <a href="/defaultvideo" className="fw-600 text-primary ms-2">
                             See more
@@ -78,136 +82,27 @@ class PostView extends Component<Props, State> {
                 ) : (
                     ""
                 )}
-                <div className="card-body d-flex p-0">
+                <div className="reaction card-body d-flex p-0">
                     <div
-                        className="emoji-bttn pointer d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2"
-                        onClick={this.toggleActive}
+                        className="emoji-bttn pointer d-flex align-items-center fw-400 text-grey-900 text-dark lh-26 font-xssss me-2"
+                        onClick={this.toggleLike}
                     >
-                        <i className="feather-thumbs-up text-white bg-primary-gradiant me-1 btn-round-xs font-xss"></i>{" "}
-                        <i className="feather-heart text-white bg-red-gradiant me-2 btn-round-xs font-xss"></i>2.8K Like
-                    </div>
-                    <div className={`emoji-wrap pointer ${emojiClass}`}>
-                        <ul className="emojis list-inline mb-0">
-                            <li className="emoji list-inline-item">
-                                <i className="em em---1"></i>{" "}
-                            </li>
-                            <li className="emoji list-inline-item">
-                                <i className="em em-angry"></i>
-                            </li>
-                            <li className="emoji list-inline-item">
-                                <i className="em em-anguished"></i>{" "}
-                            </li>
-                            <li className="emoji list-inline-item">
-                                <i className="em em-astonished"></i>{" "}
-                            </li>
-                            <li className="emoji list-inline-item">
-                                <i className="em em-blush"></i>
-                            </li>
-                            <li className="emoji list-inline-item">
-                                <i className="em em-clap"></i>
-                            </li>
-                            <li className="emoji list-inline-item">
-                                <i className="em em-cry"></i>
-                            </li>
-                            <li className="emoji list-inline-item">
-                                <i className="em em-full_moon_with_face"></i>
-                            </li>
-                        </ul>
+                        <i
+                            className={`feather-star text-black me-2 btn-round-xs font-lg ${
+                                isLike ? "bg-gold-gradiant" : "bg-grey"
+                            }`}
+                        ></i>
+                        2.8K Like
                     </div>
                     <a
-                        href="/defaultvideo"
-                        className="d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss"
+                        className="d-flex pointer align-items-center fw-400 text-grey-900 text-dark lh-26 font-xssss"
+                        onClick={this.toggleComment}
                     >
                         <i className="feather-message-circle text-dark text-grey-900 btn-round-sm font-lg"></i>
                         <span className="d-none-xss">22 Comment</span>
                     </a>
-                    <div
-                        className={`pointer ms-auto d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss ${menuClass}`}
-                        id={`dropdownMenu${id}`}
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        onClick={this.toggleOpen}
-                    >
-                        <i className="feather-share-2 text-grey-900 text-dark btn-round-sm font-lg"></i>
-                        <span className="d-none-xs">Share</span>
-                    </div>
-                    <div
-                        className={`dropdown-menu dropdown-menu-end p-4 rounded-xxl border-0 shadow-lg right-0 ${menuClass}`}
-                        aria-labelledby={`dropdownMenu${id}`}
-                    >
-                        <h4 className="fw-700 font-xss text-grey-900 d-flex align-items-center">
-                            Share{" "}
-                            <i className="feather-x ms-auto font-xssss btn-round-xs bg-greylight text-grey-900 me-2"></i>
-                        </h4>
-                        <div className="card-body p-0 d-flex">
-                            <ul className="d-flex align-items-center justify-content-between mt-2">
-                                <li className="me-1">
-                                    <span className="btn-round-lg pointer bg-facebook">
-                                        <i className="font-xs ti-facebook text-white"></i>
-                                    </span>
-                                </li>
-                                <li className="me-1">
-                                    <span className="btn-round-lg pointer bg-twiiter">
-                                        <i className="font-xs ti-twitter-alt text-white"></i>
-                                    </span>
-                                </li>
-                                <li className="me-1">
-                                    <span className="btn-round-lg pointer bg-linkedin">
-                                        <i className="font-xs ti-linkedin text-white"></i>
-                                    </span>
-                                </li>
-                                <li className="me-1">
-                                    <span className="btn-round-lg pointer bg-instagram">
-                                        <i className="font-xs ti-instagram text-white"></i>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span className="btn-round-lg pointer bg-pinterest">
-                                        <i className="font-xs ti-pinterest text-white"></i>
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div className="card-body p-0 d-flex">
-                            <ul className="d-flex align-items-center justify-content-between mt-2">
-                                <li className="me-1">
-                                    <span className="btn-round-lg pointer bg-tumblr">
-                                        <i className="font-xs ti-tumblr text-white"></i>
-                                    </span>
-                                </li>
-                                <li className="me-1">
-                                    <span className="btn-round-lg pointer bg-youtube">
-                                        <i className="font-xs ti-youtube text-white"></i>
-                                    </span>
-                                </li>
-                                <li className="me-1">
-                                    <span className="btn-round-lg pointer bg-flicker">
-                                        <i className="font-xs ti-flickr text-white"></i>
-                                    </span>
-                                </li>
-                                <li className="me-1">
-                                    <span className="btn-round-lg pointer bg-black">
-                                        <i className="font-xs ti-vimeo-alt text-white"></i>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span className="btn-round-lg pointer bg-whatsup">
-                                        <i className="font-xs feather-phone text-white"></i>
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-                        <h4 className="fw-700 font-xssss mt-4 text-grey-500 d-flex align-items-center mb-3">
-                            Copy Link
-                        </h4>
-                        <i className="feather-copy position-absolute right-35 mt-3 font-xs text-grey-500"></i>
-                        <input
-                            type="text"
-                            placeholder=""
-                            className="bg-grey text-grey-500 font-xssss border-0 lh-32 p-2 font-xssss fw-600 rounded-3 w-100 theme-dark-bg"
-                        />
-                    </div>
                 </div>
+                {isToggleComment && <Comment />}
             </div>
         );
     }

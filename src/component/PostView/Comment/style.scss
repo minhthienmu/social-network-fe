@@ -1,0 +1,12 @@
+.comments {
+    padding-top: 5px;
+    & .comment-box {
+        width: max-content;
+        background-color: #F0F2F5;
+        border-radius: 5px;
+        & .comment-text {
+            padding-left: 10px;
+            padding-right: 5px;
+        }
+    }
+}
