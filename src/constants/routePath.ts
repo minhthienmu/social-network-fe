@@ -4,4 +4,5 @@ export const mainRoutes = Object.freeze({
 
 export const otherRoutes = Object.freeze({
     Login: "/login",
+    Register: "/register",
 });
