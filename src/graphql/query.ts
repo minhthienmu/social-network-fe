@@ -10,14 +10,28 @@ export const queryAllPost = gql`
             date
             tag
             description
-            likes {
-                userFullName
-            }
+            numLikes
+            numComments
+        }
+    }
+`;
+
+export const queryComment = gql`
+    query Comment($postId: ID!) {
+        post(id: $postId) {
             comments {
                 id
+                userId
                 userFullName
                 description
+                createdAt
             }
         }
+    }
+`;
+
+export const queryLike = gql`
+    query Likes {
+        userFullName
     }
 `;

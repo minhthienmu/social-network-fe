@@ -45,6 +45,8 @@ const Home = (props: Props) => {
             user: post.userFullName,
             time: "",
             description: post.description,
+            numLikes: post.numLikes ?? 0,
+            numComments: post.numComments ?? 0,
         };
     });
     return (
@@ -54,7 +56,7 @@ const Home = (props: Props) => {
                 <div className="middle-sidebar-bottom">
                     <div className="middle-sidebar-left">
                         <div className="row feed-body">
-                            <div className="col-xl-10 col-xxl-10 col-lg-10">
+                            <div className="col-xl-9 col-xxl-9 col-lg-9">
                                 <CreatePost createPostSuccess={createPostSuccess} />
                                 {allPost.map((post: any) => {
                                     return (
@@ -67,11 +69,13 @@ const Home = (props: Props) => {
                                             user={post.user}
                                             time={post.time}
                                             description={post.description}
+                                            numLikes={post.numLikes}
+                                            numComments={post.numComments}
                                         />
                                     );
                                 })}
                             </div>
-                            <div className="col-xl-2 col-xxl-2col-lg-2 ps-lg-0"></div>
+                            <div className="col-xl-3 col-xxl-3 col-lg-3 ps-lg-0"></div>
                         </div>
                     </div>
                 </div>

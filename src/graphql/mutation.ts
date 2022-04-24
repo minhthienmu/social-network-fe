@@ -24,3 +24,9 @@ export const createPostMutation = gql`
         createPost(request: $request)
     }
 `;
+
+export const commentMutation = gql`
+    mutation comment($request: CommentRequest) {
+        comment(request: $request)
+    }
+`;
