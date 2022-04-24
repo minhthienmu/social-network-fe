@@ -47,6 +47,7 @@ const Home = (props: Props) => {
             description: post.description,
             numLikes: post.numLikes ?? 0,
             numComments: post.numComments ?? 0,
+            likes: post.likes,
         };
     });
     return (
@@ -66,11 +67,12 @@ const Home = (props: Props) => {
                                             postVideo={post.postVideo}
                                             postImage={post.postImage}
                                             avatar={post.avatar}
-                                            user={post.user}
+                                            userFullName={post.user}
                                             time={post.time}
                                             description={post.description}
                                             numLikes={post.numLikes}
                                             numComments={post.numComments}
+                                            likes={post.likes}
                                         />
                                     );
                                 })}

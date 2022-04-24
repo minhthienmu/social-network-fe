@@ -12,6 +12,10 @@ export const queryAllPost = gql`
             description
             numLikes
             numComments
+            likes {
+                userId
+                userFullName
+            }
         }
     }
 `;

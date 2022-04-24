@@ -25,6 +25,12 @@ export const createPostMutation = gql`
     }
 `;
 
+export const likeMutation = gql`
+    mutation like($request: LikeRequest) {
+        like(request: $request)
+    }
+`;
+
 export const commentMutation = gql`
     mutation comment($request: CommentRequest) {
         comment(request: $request)

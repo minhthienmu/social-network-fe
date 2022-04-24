@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Comment from "./Comment";
+import { useMutation } from "@apollo/client";
+import { likeMutation } from "graphql/mutation";
+import { RootState } from "store";
+import { connect } from "react-redux";
 
-interface Props {
+const mapStateToProps = (state: RootState) => {
+    return {
+        user: state.userReducer.user,
+    };
+};
+
+interface Props extends ReturnType<typeof mapStateToProps> {
     id: number;
-    user: string;
+    userFullName: string;
     time?: string;
     description: string;
     avatar: string;
@@ -11,17 +21,31 @@ interface Props {
     postVideo?: string;
     numLikes?: number;
     numComments?: number;
+    likes: any;
 }
 
 const PostView = (props: Props) => {
-    const { id, user, time, description, avatar, postImage, postVideo, numLikes, numComments } = props;
+    const { id, userFullName, time, description, avatar, postImage, postVideo, numLikes, numComments, user, likes } =
+        props;
+    const [like] = useMutation(likeMutation);
     const [displayDescription, setDisplayDescription] = useState("");
     const [isLike, setIsLike] = useState(false);
     const [isToggleComment, setIsToggleComment] = useState(false);
     const [showSeeMore, setShowSeeMore] = useState(false);
-    const [numberComments, setNumberComments] = useState<any>(0);
+    const [displayNumLikes, setDisplayNumLikes] = useState<any>(0);
+    const [displayNumComments, setDisplayNumberComments] = useState<any>(0);
 
-    const toggleLike = () => {
+    const toggleLike = async () => {
+        const res = await like({
+            variables: {
+                request: {
+                    postId: id,
+                    userId: user.id,
+                    like: !isLike,
+                },
+            },
+        });
+        isLike === false ? setDisplayNumLikes(displayNumLikes + 1) : setDisplayNumLikes(displayNumLikes - 1);
         setIsLike(!isLike);
     };
 
@@ -35,7 +59,7 @@ const PostView = (props: Props) => {
     };
 
     const commentSuccess = () => {
-        setNumberComments(numberComments + 1);
+        setDisplayNumberComments(displayNumComments + 1);
     };
 
     useEffect(() => {
@@ -49,7 +73,11 @@ const PostView = (props: Props) => {
     }, [description]);
 
     useEffect(() => {
-        setNumberComments(numComments);
+        setDisplayNumLikes(numLikes);
+        setDisplayNumberComments(numComments);
+        if (likes.find((e: any) => e.userId === user.id)) {
+            setIsLike(true);
+        }
     }, []);
 
     return (
@@ -60,7 +88,7 @@ const PostView = (props: Props) => {
                 </figure>
                 <h4 className="fw-700 text-grey-900 font-xssss mt-1">
                     {" "}
-                    {user} <span className="d-block font-xssss fw-500 mt-1 lh-3 text-grey-500"> {time}</span>
+                    {userFullName} <span className="d-block font-xssss fw-500 mt-1 lh-3 text-grey-500"> {time}</span>
                 </h4>
                 {/* <div className="ms-auto pointer">
                     <i className="ti-more-alt text-grey-900 btn-round-md bg-greylight font-xss"></i>
@@ -99,7 +127,7 @@ const PostView = (props: Props) => {
                 ""
             )}
             <div className="reaction card-body d-flex p-0">
-                {/* <div
+                <div
                     className="emoji-bttn pointer d-flex align-items-center fw-400 text-grey-900 text-dark lh-26 font-xssss me-2"
                     onClick={toggleLike}
                 >
@@ -108,14 +136,14 @@ const PostView = (props: Props) => {
                             isLike ? "bg-gold-gradiant" : "bg-grey"
                         }`}
                     ></i>
-                    {numLikes ? `${numLikes} Like` : ""}
-                </div> */}
+                    {displayNumLikes ? `${displayNumLikes} Like` : ""}
+                </div>
                 <a
                     className="d-flex pointer align-items-center fw-400 text-grey-900 text-dark lh-26 font-xssss"
                     onClick={toggleComment}
                 >
                     <i className="feather-message-circle text-dark text-grey-900 btn-round-sm font-lg"></i>
-                    <span className="d-none-xss">{numberComments ? `${numberComments} Comment` : ""}</span>
+                    <span className="d-none-xss">{displayNumComments ? `${displayNumComments} Comment` : ""}</span>
                 </a>
             </div>
             {isToggleComment && <Comment postId={id} commentSuccess={commentSuccess} />}
@@ -123,4 +151,4 @@ const PostView = (props: Props) => {
     );
 };
 
-export default PostView;
+export default connect(mapStateToProps)(React.memo(PostView));
