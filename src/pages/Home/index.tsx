@@ -10,7 +10,11 @@ interface Props {}
 
 const Home = (props: Props) => {
     //const [allPost, setAllPost] = useState([]);
-    const { loading, error, data, refetch } = useQuery(queryAllPost);
+    const { loading, error, data, refetch } = useQuery(queryAllPost, {
+        variables: {
+            last: 0,
+        },
+    });
     const createPostSuccess = () => {
         refetch();
     };
@@ -47,7 +51,6 @@ const Home = (props: Props) => {
             description: post.description,
             numLikes: post.numLikes ?? 0,
             numComments: post.numComments ?? 0,
-            likes: post.likes,
         };
     });
     return (

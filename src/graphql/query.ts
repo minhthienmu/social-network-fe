@@ -1,21 +1,16 @@
 import { gql } from "@apollo/client";
 
 export const queryAllPost = gql`
-    query AllPost {
-        allPost {
+    query AllPost($last: Int) {
+        allPost(last: $last) {
             id
             userId
             userFullName
             image
             date
-            tag
             description
             numLikes
             numComments
-            likes {
-                userId
-                userFullName
-            }
         }
     }
 `;
@@ -37,5 +32,24 @@ export const queryComment = gql`
 export const queryLike = gql`
     query Likes {
         userFullName
+    }
+`;
+
+export const queryAllProvider = gql`
+    query AllProvider($last: Int) {
+        allProvider(last: $last) {
+            id
+            name
+            address
+        }
+    }
+`;
+
+export const queryAllService = gql`
+    query AllService {
+        allService {
+            id
+            name
+        }
     }
 `;
