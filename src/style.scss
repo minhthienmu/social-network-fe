@@ -1,3 +1,7 @@
+.nav-header {
+    height: 76px !important;
+}
+
 .text-content {
     color: #050505;
 }
@@ -9,4 +13,8 @@
 
 .selectInput__value-container{
     height: 48px;
+}
+
+.disable-button {
+    opacity: 0.3 !important;
 }

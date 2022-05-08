@@ -4,6 +4,7 @@ import { useMutation } from "@apollo/client";
 import { likeMutation } from "graphql/mutation";
 import { RootState } from "store";
 import { connect } from "react-redux";
+import StarRatings from "react-star-ratings";
 
 const mapStateToProps = (state: RootState) => {
     return {
@@ -13,9 +14,15 @@ const mapStateToProps = (state: RootState) => {
 
 interface Props extends ReturnType<typeof mapStateToProps> {
     id: number;
+    userId: string;
     userFullName: string;
     time?: string;
+    providerId: string;
+    providerName: string;
+    serviceId: string;
+    serviceName: string;
     description: string;
+    rate: number;
     avatar: string;
     postImage?: string;
     postVideo?: string;
@@ -25,8 +32,24 @@ interface Props extends ReturnType<typeof mapStateToProps> {
 }
 
 const PostView = (props: Props) => {
-    const { id, userFullName, time, description, avatar, postImage, postVideo, numLikes, numComments, user, likes } =
-        props;
+    const {
+        id,
+        userId,
+        userFullName,
+        time,
+        description,
+        avatar,
+        postImage,
+        numLikes,
+        numComments,
+        user,
+        likes,
+        serviceId,
+        serviceName,
+        providerId,
+        providerName,
+        rate,
+    } = props;
     const [like] = useMutation(likeMutation);
     const [displayDescription, setDisplayDescription] = useState("");
     const [isLike, setIsLike] = useState(false);
@@ -83,12 +106,23 @@ const PostView = (props: Props) => {
     return (
         <div className="card w-100 shadow-xss rounded-xxl border-0 p-4 mb-3">
             <div className="card-body p-0 d-flex">
-                <figure className="avatar me-3">
+                <figure className="avatar me-3 mb-2">
                     <img src={`assets/images/${avatar}`} alt="avater" className="shadow-sm rounded-circle w45" />
                 </figure>
                 <h4 className="fw-700 text-grey-900 font-xssss mt-1">
                     {" "}
-                    {userFullName} <span className="d-block font-xssss fw-500 mt-1 lh-3 text-grey-500"> {time}</span>
+                    <a className="text-grey-900" href={`/${userId}`}>
+                        {userFullName}
+                    </a>{" "}
+                    <span className="d-inline font-xssss fw-500 text-grey-500">reviewed</span> {serviceName}{" "}
+                    <span className="d-inline font-xssss fw-500 text-grey-500">service of</span>{" "}
+                    <a className="text-grey-900" href={`/${providerId}`}>
+                        {providerName}
+                    </a>{" "}
+                    {/* <span className="d-block font-xssss fw-500 mt-1 lh-3 text-grey-500"> {time}</span> */}
+                    <div className="d-block mt-1">
+                        <StarRatings rating={rate} starDimension="20px" starSpacing="2px" starRatedColor="yellow" />
+                    </div>
                 </h4>
                 {/* <div className="ms-auto pointer">
                     <i className="ti-more-alt text-grey-900 btn-round-md bg-greylight font-xss"></i>

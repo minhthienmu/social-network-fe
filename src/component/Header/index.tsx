@@ -19,6 +19,7 @@ const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
 const mapStateToProps = (state: RootState) => {
     return {
         isLoggedIn: state.authReducer?.isLoggedIn,
+        user: state.userReducer?.user,
     };
 };
 
@@ -26,6 +27,7 @@ type PropsType = MapStateToProps<any, any> | MapDispatchToProps<any, Dispatch> |
 
 const mainRoute = Object.values(mainRoutes).map((i) => i);
 const Header = (props: PropsType) => {
+    const { user } = props;
     const [isNoti, setIsNoti] = useState(false);
 
     const toggleisNoti = () => setIsNoti(!isNoti);
@@ -33,6 +35,10 @@ const Header = (props: PropsType) => {
     const logOut = () => {
         props.setIsLoggedIn(false);
         props.history.push("/login");
+    };
+
+    const goToPersonalPage = () => {
+        window.location.href = `/${user.id}`;
     };
 
     const notiClass = `${isNoti ? " show" : ""}`;
@@ -52,7 +58,7 @@ const Header = (props: PropsType) => {
                             </span>{" "}
                         </Link>
                     </div>
-                    <form action="#" className="float-left header-search ms-3">
+                    {/* <form action="#" className="float-left header-search ms-3">
                         <div className="form-group mb-0 icon-input">
                             <i className="feather-search font-sm text-grey-400"></i>
                             <input
@@ -61,19 +67,20 @@ const Header = (props: PropsType) => {
                                 className="bg-grey border-0 lh-32 pt-2 pb-2 ps-5 pe-3 font-xssss fw-500 rounded-xl w350 theme-dark-bg"
                             />
                         </div>
-                    </form>
+                    </form> */}
 
-                    <span
-                        className={`p-2 pointer text-center ms-auto menu-icon ${notiClass}`}
-                        id="dropdownMenu3"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        onClick={toggleisNoti}
+                    <div
+                        className="ms-auto bg-transparent-card d-flex bg-greylight pointer"
+                        style={{ borderRadius: "50px", width: "max-content" }}
+                        onClick={goToPersonalPage}
                     >
-                        {/*<span className="dot-count bg-warning"></span>
-                        <i className="feather-bell font-xl text-current"></i> */}
-                        <i onClick={logOut} className="feather-log-out font-xl text-current"></i>
-                    </span>
+                        <figure className="avatar me-2 mb-0">
+                            <img src={`assets/images/user.png`} alt="avater" className="shadow-sm rounded-circle w45" />
+                        </figure>
+                        <h4 className="fw-700 text-grey-900 pe-md-3" style={{ fontSize: "14px", marginTop: "13px" }}>
+                            {user.fullName}
+                        </h4>
+                    </div>
                 </div>
             ) : null}
         </>

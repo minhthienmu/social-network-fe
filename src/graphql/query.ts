@@ -6,10 +6,19 @@ export const queryAllPost = gql`
             id
             userId
             userFullName
+            providerId
+            providerName
+            serviceId
+            serviceName
             image
-            date
             description
             numLikes
+            likes {
+                userId
+                userFullName
+            }
+            rate
+            date
             numComments
         }
     }
@@ -50,6 +59,22 @@ export const queryAllService = gql`
         allService {
             id
             name
+        }
+    }
+`;
+
+export const queryIsUserOrProvider = gql`
+    query isUserOrProvider($isUserOrProviderId: ID!) {
+        isUserOrProvider(id: $isUserOrProviderId)
+    }
+`;
+
+export const queryProviderInfo = gql`
+    query ProviderInfo($providerInfoId: ID!) {
+        providerInfo(id: $providerInfoId) {
+            id
+            name
+            address
         }
     }
 `;
