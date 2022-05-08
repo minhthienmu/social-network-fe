@@ -16,7 +16,7 @@ class Leftnav extends Component {
                                 <li>
                                     <Link to="/" className="nav-content-bttn open-font">
                                         <i className="feather-tv btn-round-md bg-blue-gradiant me-3"></i>
-                                        <span>News Feed</span>
+                                        <span>Feed</span>
                                     </Link>
                                 </li>
                                 {/* <li>
@@ -34,27 +34,20 @@ class Leftnav extends Component {
                             </ul>
                         </div>
 
-                        {/* <div className="nav-wrap bg-white bg-transparent-card rounded-xxl shadow-xss pt-3 pb-1">
+                        <div className="nav-wrap bg-white bg-transparent-card rounded-xxl shadow-xss pt-3 pb-1">
                             <div className="nav-caption fw-600 font-xssss text-grey-500">
                                 <span></span> Account
                             </div>
                             <ul className="mb-1">
                                 <li className="logo d-none d-xl-block d-lg-block"></li>
                                 <li>
-                                    <Link to="/defaultsettings" className="nav-content-bttn open-font h-auto pt-2 pb-2">
+                                    <Link to="/setting" className="nav-content-bttn open-font h-auto pt-2 pb-2">
                                         <i className="font-sm feather-settings me-3 text-grey-500"></i>
                                         <span>Settings</span>
                                     </Link>
                                 </li>
-                                <li>
-                                    <Link to="/defaultmessage" className="nav-content-bttn open-font h-auto pt-2 pb-2">
-                                        <i className="font-sm feather-message-square me-3 text-grey-500"></i>
-                                        <span>Chat</span>
-                                        <span className="circle-count bg-warning mt-0">23</span>
-                                    </Link>
-                                </li>
                             </ul>
-                        </div> */}
+                        </div>
                     </div>
                 </div>
             </div>

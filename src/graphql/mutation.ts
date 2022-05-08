@@ -36,3 +36,9 @@ export const commentMutation = gql`
         comment(request: $request)
     }
 `;
+
+export const createProviderMutation = gql`
+    mutation createProvider($request: CreateProviderRequest) {
+        createProvider(request: $request)
+    }
+`;

@@ -74,7 +74,7 @@ const Login = (props: Props) => {
                                         <input
                                             type="text"
                                             className="style2-input ps-5 form-control text-grey-900 font-xsss fw-600"
-                                            placeholder="Your Email Address"
+                                            placeholder="Your UserName"
                                             name="username"
                                         />
                                     </div>
@@ -96,7 +96,12 @@ const Login = (props: Props) => {
                                     </div>
                                     <div className="col-sm-12 p-0 text-left">
                                         <div className="form-group mb-1">
-                                            <button className="form-control text-center style2-input text-white fw-600 bg-dark border-0 p-0 ">
+                                            <button
+                                                className={`form-control text-center style2-input text-white fw-600 bg-dark border-0 p-0 ${
+                                                    loading ? "disable-button" : ""
+                                                }`}
+                                                disabled={loading}
+                                            >
                                                 Login
                                             </button>
                                         </div>

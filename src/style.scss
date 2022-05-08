@@ -1,4 +1,20 @@
+.nav-header {
+    height: 76px !important;
+}
+
 .text-content {
     color: #050505;
 }
 .modal-backdrop.show {opacity: 0.5 !important;}
+
+.no-border {
+    border: none;
+}
+
+.selectInput__value-container{
+    height: 48px;
+}
+
+.disable-button {
+    opacity: 0.3 !important;
+}

@@ -4,17 +4,21 @@ import { mainRoutes, otherRoutes } from "../constants/routePath";
 import AuthRoute from "./AuthRoutes";
 import PrivateRoute from "./PrivateRoutes";
 
-const Home = lazy(() => import("pages/Home"));
 const Login = lazy(() => import("pages/Login"));
 const Register = lazy(() => import("pages/Register"));
+const Home = lazy(() => import("pages/Home"));
+const Personal = lazy(() => import("pages/Personal"));
+const Setting = lazy(() => import("pages/Setting"));
 
 export const Routes = () => {
     return (
         <Suspense fallback={null}>
             <Switch>
-                <PrivateRoute path={mainRoutes.Home} exact component={Home} />
                 <AuthRoute path={otherRoutes.Login} exact component={Login} />
                 <AuthRoute path={otherRoutes.Register} exact component={Register} />
+                <PrivateRoute path={mainRoutes.Home} exact component={Home} />
+                <PrivateRoute path={mainRoutes.Setting} exact component={Setting} />
+                <PrivateRoute path={mainRoutes.Personal} exact component={Personal} />
             </Switch>
         </Suspense>
     );

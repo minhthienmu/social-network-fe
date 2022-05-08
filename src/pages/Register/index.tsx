@@ -96,7 +96,12 @@ const Register = (props: Props) => {
                                     </div>
                                     <div className="col-sm-12 p-0 text-left">
                                         <div className="form-group mb-1">
-                                            <button className="form-control text-center style2-input text-white fw-600 bg-dark border-0 p-0 ">
+                                            <button
+                                                className={`form-control text-center style2-input text-white fw-600 bg-dark border-0 p-0 ${
+                                                    loading ? "disable-button" : ""
+                                                }`}
+                                                disabled={loading}
+                                            >
                                                 Register
                                             </button>
                                         </div>
