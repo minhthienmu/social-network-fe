@@ -1,12 +1,13 @@
-import { useLazyQuery, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import CoverImage from "component/CoverImage";
 import CreatePost from "component/CreatePost";
 import Loading from "component/Loading";
 import PostView from "component/PostView";
-import { queryAllPost, queryIsUserOrProvider, queryProviderInfo } from "graphql/query";
+import { followMutation, unfollowMutation } from "graphql/mutation";
+import { queryAllPost, queryIsFollowing, queryUserInfo } from "graphql/query";
 import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps, useParams } from "react-router-dom";
 import { RootState } from "store";
 
 const mapStateToProps = (state: RootState) => {
@@ -18,18 +19,24 @@ const mapStateToProps = (state: RootState) => {
 interface Props extends RouteComponentProps, ReturnType<typeof mapStateToProps> {}
 
 const Personal = (props: Props) => {
-    const [getIsUserOrProvider] = useLazyQuery(queryIsUserOrProvider);
-    const [getProviderInfo] = useLazyQuery(queryProviderInfo);
-    const [isUserOrProvider, setIsUserOrProvider] = useState<string>("0");
-    const [providerInfo, setProviderInfo] = useState<any>({});
-    const userOrProviderId = location.pathname.split("/")[1];
+    const { id } = useParams<{ id: string }>();
     const { user } = props;
     const [itsMe, setItsMe] = useState(false);
-    const { loading, error, data, refetch } = useQuery(queryAllPost, {
+    const { loading, data, refetch } = useQuery(queryAllPost, {
         variables: {
-            last: 0,
+            request: {
+                currentUserId: user.id,
+                last: 0,
+                userId: id,
+            },
         },
     });
+    const [getUserInfo] = useLazyQuery(queryUserInfo);
+    const [getIsFollowing] = useLazyQuery(queryIsFollowing);
+    const [follow] = useMutation(followMutation);
+    const [unfollow] = useMutation(unfollowMutation);
+    const [userInfo, setUserInfo] = useState<any>({});
+    const [isFollowed, setIsFollowed] = useState<boolean>(false);
 
     const createPostSuccess = () => {
         refetch();
@@ -37,28 +44,48 @@ const Personal = (props: Props) => {
 
     useEffect(() => {
         (async () => {
-            const res = await getIsUserOrProvider({
+            const userInfoPromise = getUserInfo({
                 variables: {
-                    isUserOrProviderId: userOrProviderId,
+                    userId: id,
                 },
             });
-            const isUserOrProvider = res.data.isUserOrProvider;
-            switch (isUserOrProvider) {
-                case "1":
-                    if (user.id === userOrProviderId) setItsMe(true);
-                    break;
-                case "2":
-                    const resProviderInfo = await getProviderInfo({
-                        variables: {
-                            providerInfoId: userOrProviderId,
-                        },
-                    });
-                    setProviderInfo(resProviderInfo.data.providerInfo);
-                    break;
+            if (user.id === id) {
+                setItsMe(true);
+            } else {
+                const isFollowingPromise = getIsFollowing({
+                    variables: {
+                        followerId: user.id,
+                        followingId: id,
+                    },
+                });
+                const resIsFollowing = await isFollowingPromise;
+                const isFollowing = resIsFollowing.data.isFollowing === "true" ? true : false;
+                setIsFollowed(isFollowing);
             }
-            setIsUserOrProvider(isUserOrProvider);
+            const resUserInfo = await userInfoPromise;
+            setUserInfo(resUserInfo.data.user);
         })();
     }, []);
+
+    const onFollow = async () => {
+        await follow({
+            variables: {
+                followerId: user.id,
+                followingId: id,
+            },
+        });
+        setIsFollowed(!isFollowed);
+    };
+
+    const onUnfollow = async () => {
+        await unfollow({
+            variables: {
+                unfollowerId: user.id,
+                followingId: id,
+            },
+        });
+        setIsFollowed(!isFollowed);
+    };
 
     if (loading) {
         return (
@@ -68,15 +95,15 @@ const Personal = (props: Props) => {
                         <div className="middle-sidebar-left pe-0">
                             <div className="row">
                                 <div className="col-xl-12 mb-3">
-                                    {isUserOrProvider === "1" ? (
-                                        itsMe ? (
-                                            <CoverImage userFullName={user.fullName} />
-                                        ) : (
-                                            <CoverImage userFullName={""} />
-                                        )
-                                    ) : (
-                                        <CoverImage userFullName={providerInfo.name} />
-                                    )}
+                                    <CoverImage
+                                        userFullName={userInfo.fullName}
+                                        birthday={userInfo.birthday}
+                                        phoneNumber={userInfo.phoneNumber}
+                                        itsMe={itsMe}
+                                        follow={onFollow}
+                                        unfollow={onUnfollow}
+                                        isFollowed={isFollowed}
+                                    />
                                 </div>
                                 <div className="col-xl-12 col-xxl-12 col-lg-12">
                                     {itsMe ? (
@@ -124,16 +151,19 @@ const Personal = (props: Props) => {
                     <div className="middle-sidebar-left pe-0">
                         <div className="row">
                             <div className="col-xl-12 mb-3">
-                                {isUserOrProvider === "1" ? (
-                                    itsMe ? (
-                                        <CoverImage userFullName={user.fullName} />
-                                    ) : (
-                                        <CoverImage userFullName={allPost.length > 0 ? allPost[0].user : ""} />
-                                    )
-                                ) : (
-                                    <CoverImage userFullName={providerInfo.name} />
-                                )}
+                                <CoverImage
+                                    userFullName={userInfo.fullName}
+                                    birthday={userInfo.birthday}
+                                    phoneNumber={userInfo.phoneNumber}
+                                    itsMe={itsMe}
+                                    follow={onFollow}
+                                    unfollow={onUnfollow}
+                                    isFollowed={isFollowed}
+                                />
                             </div>
+                            {/* <a href="/" className="btn-round-md ms-2 bg-greylight theme-dark-bg rounded-3">
+                                <i className="feather-filter font-xss text-grey-500"></i>
+                            </a> */}
                             <div className="col-xl-12 col-xxl-12 col-lg-12">
                                 {itsMe ? (
                                     <>
@@ -141,52 +171,27 @@ const Personal = (props: Props) => {
                                     </>
                                 ) : null}
                                 {allPost.map((post: any) => {
-                                    if (post.userId === userOrProviderId) {
-                                        return (
-                                            <PostView
-                                                id={post.id}
-                                                userId={post.userId}
-                                                providerId={post.providerId}
-                                                providerName={post.providerName}
-                                                serviceId={post.serviceId}
-                                                serviceName={post.serviceName}
-                                                key={post.id}
-                                                postVideo={post.postVideo}
-                                                postImage={post.postImage}
-                                                avatar={post.avatar}
-                                                userFullName={post.user}
-                                                time={post.time}
-                                                description={post.description}
-                                                rate={post.rate}
-                                                numLikes={post.numLikes}
-                                                numComments={post.numComments}
-                                                likes={post.likes}
-                                            />
-                                        );
-                                    }
-                                    if (post.providerId === userOrProviderId) {
-                                        return (
-                                            <PostView
-                                                id={post.id}
-                                                userId={post.userId}
-                                                providerId={post.providerId}
-                                                providerName={post.providerName}
-                                                serviceId={post.serviceId}
-                                                serviceName={post.serviceName}
-                                                key={post.id}
-                                                postVideo={post.postVideo}
-                                                postImage={post.postImage}
-                                                avatar={post.avatar}
-                                                userFullName={post.user}
-                                                time={post.time}
-                                                description={post.description}
-                                                rate={post.rate}
-                                                numLikes={post.numLikes}
-                                                numComments={post.numComments}
-                                                likes={post.likes}
-                                            />
-                                        );
-                                    }
+                                    return (
+                                        <PostView
+                                            id={post.id}
+                                            userId={post.userId}
+                                            providerId={post.providerId}
+                                            providerName={post.providerName}
+                                            serviceId={post.serviceId}
+                                            serviceName={post.serviceName}
+                                            key={post.id}
+                                            postVideo={post.postVideo}
+                                            postImage={post.postImage}
+                                            avatar={post.avatar}
+                                            userFullName={post.user}
+                                            time={post.time}
+                                            description={post.description}
+                                            rate={post.rate}
+                                            numLikes={post.numLikes}
+                                            numComments={post.numComments}
+                                            isLikeByUser={post.isLikeByUser}
+                                        />
+                                    );
                                 })}
                             </div>
                         </div>
@@ -197,4 +202,4 @@ const Personal = (props: Props) => {
     );
 };
 
-export default connect(mapStateToProps)(Personal);
+export default connect(mapStateToProps)(React.memo(Personal));

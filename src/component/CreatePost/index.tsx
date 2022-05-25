@@ -75,6 +75,7 @@ const CreatePost = (props: Props) => {
     const createPost = async () => {
         try {
             setLoading(true);
+            let providerId = "";
             if (toggleAddNewProvider) {
                 const name = (document.querySelector('[name="providerName"]') as HTMLInputElement).value;
                 const address = (document.querySelector('[name="providerAddress"]') as HTMLInputElement).value;
@@ -83,9 +84,13 @@ const CreatePost = (props: Props) => {
                         request: {
                             name: name,
                             address: address,
+                            serviceId: selectedServiceOption?.value,
                         },
                     },
                 });
+                providerId = resCreateProvider.data.createProvider;
+            } else {
+                providerId = selectedProviderOption?.value;
             }
             let imgRes;
             if (image) {
@@ -96,7 +101,7 @@ const CreatePost = (props: Props) => {
             }
             const request = {
                 userId: props.user.id,
-                providerId: selectedProviderOption?.value,
+                providerId: providerId,
                 serviceId: selectedServiceOption?.value,
                 image: imgRes?.data?.url ?? "",
                 description: value,
@@ -147,7 +152,7 @@ const CreatePost = (props: Props) => {
                 </div>
                 <div className="card-body p-0 mt-2 position-relative pointer" onClick={toggleOpen}>
                     <figure className="avatar position-absolute ms-2 mt-1 top-5">
-                        <img src="assets/images/user.png" alt="icon" className="shadow-sm rounded-circle w30" />
+                        <img src="/assets/images/user.png" alt="icon" className="shadow-sm rounded-circle w30" />
                     </figure>
                     <input
                         name="message"
@@ -278,7 +283,7 @@ const CreatePost = (props: Props) => {
                                     }}
                                 >
                                     <i className="font-md text-success feather-image me-2"></i>
-                                    <span className="d-none-xs">Photo/Video</span>
+                                    <span className="d-none-xs">Photo</span>
                                 </a>
                             </div>
                         </div>
@@ -301,4 +306,4 @@ const CreatePost = (props: Props) => {
     );
 };
 
-export default connect(mapStateToProps)(CreatePost);
+export default connect(mapStateToProps)(React.memo(CreatePost));

@@ -11,6 +11,7 @@ const Register = (props: Props) => {
     const onSubmit = async (e: any) => {
         e.preventDefault();
         const fullname = e.target.querySelector('[name="fullname"]').value;
+        const email = e.target.querySelector('[name="email"]').value;
         const username = e.target.querySelector('[name="username"]').value;
         const password = e.target.querySelector('[name="password"]').value;
         try {
@@ -18,6 +19,7 @@ const Register = (props: Props) => {
                 variables: {
                     request: {
                         fullName: fullname,
+                        email: email,
                         username: username,
                         password: password,
                     },
@@ -65,6 +67,15 @@ const Register = (props: Props) => {
                                             className="style2-input ps-5 form-control text-grey-900 font-xsss fw-600"
                                             placeholder="Your Full Name"
                                             name="fullname"
+                                        />
+                                    </div>
+                                    <div className="form-group icon-input mb-3">
+                                        <i className="font-sm ti-email text-grey-500 pe-0"></i>
+                                        <input
+                                            type="text"
+                                            className="style2-input ps-5 form-control text-grey-900 font-xsss fw-600"
+                                            placeholder="Your Email"
+                                            name="email"
                                         />
                                     </div>
                                     <div className="form-group icon-input mb-3">

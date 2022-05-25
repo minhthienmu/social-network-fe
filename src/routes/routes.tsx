@@ -9,6 +9,9 @@ const Register = lazy(() => import("pages/Register"));
 const Home = lazy(() => import("pages/Home"));
 const Personal = lazy(() => import("pages/Personal"));
 const Setting = lazy(() => import("pages/Setting"));
+const Message = lazy(() => import("pages/Message"));
+const Provider = lazy(() => import("pages/Provider"));
+const Search = lazy(() => import("pages/Search"));
 
 export const Routes = () => {
     return (
@@ -18,7 +21,10 @@ export const Routes = () => {
                 <AuthRoute path={otherRoutes.Register} exact component={Register} />
                 <PrivateRoute path={mainRoutes.Home} exact component={Home} />
                 <PrivateRoute path={mainRoutes.Setting} exact component={Setting} />
+                <PrivateRoute path={mainRoutes.Message} exact component={Message} />
+                <PrivateRoute path={mainRoutes.Provider} exact component={Provider} />
                 <PrivateRoute path={mainRoutes.Personal} exact component={Personal} />
+                <PrivateRoute path={mainRoutes.Search} exact component={Search} />
             </Switch>
         </Suspense>
     );

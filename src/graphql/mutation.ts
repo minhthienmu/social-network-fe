@@ -42,3 +42,15 @@ export const createProviderMutation = gql`
         createProvider(request: $request)
     }
 `;
+
+export const followMutation = gql`
+    mutation follow($followerId: ID!, $followingId: ID!) {
+        follow(followerId: $followerId, followingId: $followingId)
+    }
+`;
+
+export const unfollowMutation = gql`
+    mutation unfollow($unfollowerId: ID!, $followingId: ID!) {
+        unfollow(unfollowerId: $unfollowerId, followingId: $followingId)
+    }
+`;

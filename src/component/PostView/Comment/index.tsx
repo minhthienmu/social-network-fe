@@ -20,9 +20,10 @@ interface Props extends ReturnType<typeof mapStateToProps> {
 
 const Comment = (props: Props) => {
     const [getComment, { data }] = useLazyQuery(queryComment);
-    const [comment, { loading, error }] = useMutation(commentMutation);
+    const [comment] = useMutation(commentMutation);
     const [listComment, setListComment] = useState([]);
     const { user, postId } = props;
+
     const onComment = async (e: any) => {
         e.preventDefault();
         try {
@@ -61,7 +62,7 @@ const Comment = (props: Props) => {
                     postId: postId,
                 },
             });
-            const comments = res.data.post.comments;
+            const comments = res.data.commentPost ?? [];
             setListComment(comments.slice(0, listComment.length > 5 ? listComment.length : 5));
         })();
     }, [data]);
@@ -88,9 +89,9 @@ const Comment = (props: Props) => {
             </form>
             {listComment.length > 0 ? (
                 <>
-                    {listComment.map((comment: any) => {
+                    {listComment.map((item: any) => {
                         return (
-                            <div className="d-flex flex-row mb-2" style={{ marginLeft: "5px" }} key={comment.id}>
+                            <div className="d-flex flex-row mb-2" style={{ marginLeft: "5px" }} key={item.id}>
                                 <figure className="avatar me-3">
                                     <img
                                         src={`assets/images/user.png`}
@@ -100,16 +101,16 @@ const Comment = (props: Props) => {
                                 </figure>
                                 <div className="comment-box d-flex flex-column ml-2">
                                     <span className="comment-text fw-700 font-xssss lh-26 text-content">
-                                        {comment.userFullName}
+                                        {item.userFullName}
                                     </span>
                                     <span className="comment-text fw-400 font-xssss text-content">
-                                        {comment.description}
+                                        {item.description}
                                     </span>
                                 </div>
                             </div>
                         );
                     })}
-                    {listComment.length < data.post.comments.length ? (
+                    {listComment.length < data.commentPost.length ? (
                         <div className="text-grey-500 font-xsss fw-500 ms-xl-2 cursor-pointer" onClick={loadMore}>
                             More
                         </div>

@@ -1,20 +1,37 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import Leftnav from "component/LeftNav";
 import CreatePost from "../../component/CreatePost";
 import Loading from "../../component/Loading";
 import PostView from "../../component/PostView";
 import { useQuery } from "@apollo/client";
 import { queryAllPost } from "graphql/query";
+import { RootState } from "store";
+import { connect } from "react-redux";
 
-interface Props {}
+const mapStateToProps = (state: RootState) => {
+    return {
+        user: state.userReducer.user,
+    };
+};
+
+interface Props extends ReturnType<typeof mapStateToProps> {}
 
 const Home = (props: Props) => {
     //const [allPost, setAllPost] = useState([]);
+    const { user } = props;
     const { loading, error, data, refetch } = useQuery(queryAllPost, {
         variables: {
-            last: 0,
+            request: {
+                currentUserId: user.id,
+                last: 0,
+            },
         },
     });
+
+    useEffect(() => {
+        refetch();
+    }, []);
+
     const createPostSuccess = () => {
         refetch();
     };
@@ -50,16 +67,17 @@ const Home = (props: Props) => {
             serviceName: post.serviceName,
             postVideo: "",
             postImage: post.image,
-            avatar: "user.png",
+            avatar: post.avatar ?? "user.png",
             user: post.userFullName,
             time: "",
             description: post.description,
             rate: post.rate,
             numLikes: post.numLikes ?? 0,
             numComments: post.numComments ?? 0,
-            likes: post.likes ?? [],
+            isLikeByUser: post.isLikeByUser,
         };
     });
+
     return (
         <Fragment>
             <Leftnav />
@@ -88,7 +106,7 @@ const Home = (props: Props) => {
                                             rate={post.rate}
                                             numLikes={post.numLikes}
                                             numComments={post.numComments}
-                                            likes={post.likes}
+                                            isLikeByUser={post.isLikeByUser}
                                         />
                                     );
                                 })}
@@ -102,4 +120,4 @@ const Home = (props: Props) => {
     );
 };
 
-export default Home;
+export default connect(mapStateToProps)(Home);
