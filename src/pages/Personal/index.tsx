@@ -140,7 +140,7 @@ const Personal = (props: Props) => {
             rate: post.rate,
             numLikes: post.numLikes ?? 0,
             numComments: post.numComments ?? 0,
-            likes: post.likes ?? [],
+            isLikeByUser: post.isLikeByUser,
         };
     });
 
