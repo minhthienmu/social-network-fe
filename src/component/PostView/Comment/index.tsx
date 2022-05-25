@@ -94,7 +94,7 @@ const Comment = (props: Props) => {
                             <div className="d-flex flex-row mb-2" style={{ marginLeft: "5px" }} key={item.id}>
                                 <figure className="avatar me-3">
                                     <img
-                                        src={`assets/images/user.png`}
+                                        src={`/assets/images/user.png`}
                                         alt="avater"
                                         className="shadow-sm rounded-circle w30"
                                     />
