@@ -5,6 +5,7 @@ import { likeMutation } from "graphql/mutation";
 import { RootState } from "store";
 import { connect } from "react-redux";
 import StarRatings from "react-star-ratings";
+import { Star } from "react-feather";
 
 const mapStateToProps = (state: RootState) => {
     return {
@@ -172,11 +173,11 @@ const PostView = (props: Props) => {
                         className="emoji-bttn pointer d-flex align-items-center fw-400 text-grey-900 text-dark lh-26 font-xssss me-2"
                         onClick={toggleLike}
                     >
-                        <i
-                            className={`feather-star text-black me-2 btn-round-xs font-lg ${
-                                isLike ? "bg-gold-gradiant" : "bg-grey"
-                            }`}
-                        ></i>
+                        {isLike ? (
+                            <Star size={25} className="m-1" fill="yellow" />
+                        ) : (
+                            <Star size={25} className="m-1" fill="white" />
+                        )}
                         {displayNumLikes ? `${displayNumLikes} Like` : ""}
                     </div>
                     <a
