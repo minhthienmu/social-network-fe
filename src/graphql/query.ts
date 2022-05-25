@@ -1,39 +1,23 @@
 import { gql } from "@apollo/client";
 
 export const queryAllPost = gql`
-    query AllPost($last: Int) {
-        allPost(last: $last) {
+    query AllPost($request: queryAllPostRequest) {
+        allPost(request: $request) {
             id
             userId
             userFullName
+            avatar
             providerId
             providerName
             serviceId
             serviceName
             image
             description
-            numLikes
-            likes {
-                userId
-                userFullName
-            }
             rate
             date
+            numLikes
             numComments
-        }
-    }
-`;
-
-export const queryComment = gql`
-    query Comment($postId: ID!) {
-        post(id: $postId) {
-            comments {
-                id
-                userId
-                userFullName
-                description
-                createdAt
-            }
+            isLikeByUser
         }
     }
 `;
@@ -63,18 +47,81 @@ export const queryAllService = gql`
     }
 `;
 
-export const queryIsUserOrProvider = gql`
-    query isUserOrProvider($isUserOrProviderId: ID!) {
-        isUserOrProvider(id: $isUserOrProviderId)
-    }
-`;
-
 export const queryProviderInfo = gql`
     query ProviderInfo($providerInfoId: ID!) {
         providerInfo(id: $providerInfoId) {
             id
             name
             address
+            serviceRate {
+                serviceId
+                serviceName
+                sumRating
+                totalRating
+            }
+        }
+    }
+`;
+
+export const queryUserInfo = gql`
+    query UserInfo($userId: ID!) {
+        user(id: $userId) {
+            fullName
+            birthday
+            avatar
+            coverImage
+            phoneNumber
+        }
+    }
+`;
+
+export const queryComment = gql`
+    query QueryCommentPost($postId: ID!) {
+        commentPost(postId: $postId) {
+            id
+            userId
+            userFullName
+            description
+            createdAt
+        }
+    }
+`;
+
+export const queryIsFollowing = gql`
+    query QueryIsFollowing($followerId: ID!, $followingId: ID!) {
+        isFollowing(followerId: $followerId, followingId: $followingId)
+    }
+`;
+
+export const querySearch = gql`
+    query QuerySearch($keyword: String!) {
+        search(keyword: $keyword) {
+            user {
+                id
+                fullName
+                avatar
+            }
+            provider {
+                id
+                name
+                address
+            }
+            post {
+                id
+                userId
+                userFullName
+                avatar
+                providerId
+                providerName
+                serviceId
+                serviceName
+                image
+                date
+                rate
+                description
+                numLikes
+                numComments
+            }
         }
     }
 `;

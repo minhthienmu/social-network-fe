@@ -16,7 +16,6 @@ interface Props extends ReturnType<typeof mapStateToProps> {
     id: number;
     userId: string;
     userFullName: string;
-    time?: string;
     providerId: string;
     providerName: string;
     serviceId: string;
@@ -28,7 +27,9 @@ interface Props extends ReturnType<typeof mapStateToProps> {
     postVideo?: string;
     numLikes?: number;
     numComments?: number;
-    likes: any;
+    time?: string;
+    isLikeByUser?: boolean;
+    disableReaction?: boolean;
 }
 
 const PostView = (props: Props) => {
@@ -43,18 +44,19 @@ const PostView = (props: Props) => {
         numLikes,
         numComments,
         user,
-        likes,
-        serviceId,
         serviceName,
         providerId,
         providerName,
         rate,
+        isLikeByUser,
+        disableReaction,
     } = props;
     const [like] = useMutation(likeMutation);
     const [displayDescription, setDisplayDescription] = useState("");
     const [isLike, setIsLike] = useState(false);
     const [isToggleComment, setIsToggleComment] = useState(false);
     const [showSeeMore, setShowSeeMore] = useState(false);
+    const [showPostSetting, setShowPostSetting] = useState(false);
     const [displayNumLikes, setDisplayNumLikes] = useState<any>(0);
     const [displayNumComments, setDisplayNumberComments] = useState<any>(0);
 
@@ -85,6 +87,10 @@ const PostView = (props: Props) => {
         setDisplayNumberComments(displayNumComments + 1);
     };
 
+    const togglePostSetting = () => {
+        setShowPostSetting(!showPostSetting);
+    };
+
     useEffect(() => {
         if (description.length > 300) {
             setDisplayDescription(description.slice(0, 300));
@@ -98,25 +104,25 @@ const PostView = (props: Props) => {
     useEffect(() => {
         setDisplayNumLikes(numLikes);
         setDisplayNumberComments(numComments);
-        if (likes.find((e: any) => e.userId === user.id)) {
-            setIsLike(true);
-        }
+        setIsLike(isLikeByUser ?? false);
     }, []);
+
+    const isShowPostSetting = `${showPostSetting ? " show" : ""}`;
 
     return (
         <div className="card w-100 shadow-xss rounded-xxl border-0 p-4 mb-3">
             <div className="card-body p-0 d-flex">
                 <figure className="avatar me-3 mb-2">
-                    <img src={`assets/images/${avatar}`} alt="avater" className="shadow-sm rounded-circle w45" />
+                    <img src={`/assets/images/${avatar}`} alt="avater" className="shadow-sm rounded-circle w45" />
                 </figure>
                 <h4 className="fw-700 text-grey-900 font-xssss mt-1">
                     {" "}
-                    <a className="text-grey-900" href={`/${userId}`}>
+                    <a className="text-grey-900" href={`/user/${userId}`}>
                         {userFullName}
                     </a>{" "}
                     <span className="d-inline font-xssss fw-500 text-grey-500">reviewed</span> {serviceName}{" "}
                     <span className="d-inline font-xssss fw-500 text-grey-500">service of</span>{" "}
-                    <a className="text-grey-900" href={`/${providerId}`}>
+                    <a className="text-grey-900" href={`/provider/${providerId}`}>
                         {providerName}
                     </a>{" "}
                     {/* <span className="d-block font-xssss fw-500 mt-1 lh-3 text-grey-500"> {time}</span> */}
@@ -124,21 +130,21 @@ const PostView = (props: Props) => {
                         <StarRatings rating={rate} starDimension="20px" starSpacing="2px" starRatedColor="yellow" />
                     </div>
                 </h4>
-                {/* <div className="ms-auto pointer">
-                    <i className="ti-more-alt text-grey-900 btn-round-md bg-greylight font-xss"></i>
+                {/* <div className={`pos-relative ms-auto pointer ${isShowPostSetting}`} onClick={togglePostSetting}>
+                    <i className="ti-more-alt text-grey-900 font-xss"></i>
+                    <div
+                        className={`dropdown-menu right-0 rounded-xxl border-0 shadow-lg ${isShowPostSetting} text-center`}
+                        aria-labelledby="dropdownMenu3"
+                    >
+                        <div className="card bg-transparent-card w-100 border-0 mb-3">
+                            <h5 className="font-xsss text-grey-900 mb-1 mt-0 fw-700 d-block">Edit Post</h5>
+                        </div>
+                        <div className="card bg-transparent-card w-100 border-0">
+                            <h5 className="font-xsss text-grey-900 mb-1 mt-0 fw-700 d-block">Delete Post</h5>
+                        </div>
+                    </div>
                 </div> */}
             </div>
-            {/* {postVideo ? (
-                <div className="card-body p-0 mb-3 rounded-3 overflow-hidden uttam-die">
-                    <a href="/defaultvideo" className="video-btn">
-                        <video autoPlay loop className="float-right w-100">
-                            <source src={`assets/images/${postVideo}`} type="video/mp4" />
-                        </video>
-                    </a>
-                </div>
-            ) : (
-                ""
-            )} */}
             <div className="card-body p-0 me-lg-5">
                 <p className="fw-400 text-content lh-26 font-xssss w-100 mb-2" style={{ textAlign: "justify" }}>
                     {displayDescription}{" "}
@@ -160,26 +166,28 @@ const PostView = (props: Props) => {
             ) : (
                 ""
             )}
-            <div className="reaction card-body d-flex p-0">
-                <div
-                    className="emoji-bttn pointer d-flex align-items-center fw-400 text-grey-900 text-dark lh-26 font-xssss me-2"
-                    onClick={toggleLike}
-                >
-                    <i
-                        className={`feather-star text-black me-2 btn-round-xs font-lg ${
-                            isLike ? "bg-gold-gradiant" : "bg-grey"
-                        }`}
-                    ></i>
-                    {displayNumLikes ? `${displayNumLikes} Like` : ""}
+            {!disableReaction ? (
+                <div className="reaction card-body d-flex p-0">
+                    <div
+                        className="emoji-bttn pointer d-flex align-items-center fw-400 text-grey-900 text-dark lh-26 font-xssss me-2"
+                        onClick={toggleLike}
+                    >
+                        <i
+                            className={`feather-star text-black me-2 btn-round-xs font-lg ${
+                                isLike ? "bg-gold-gradiant" : "bg-grey"
+                            }`}
+                        ></i>
+                        {displayNumLikes ? `${displayNumLikes} Like` : ""}
+                    </div>
+                    <a
+                        className="d-flex pointer align-items-center fw-400 text-grey-900 text-dark lh-26 font-xssss"
+                        onClick={toggleComment}
+                    >
+                        <i className="feather-message-circle text-dark text-grey-900 btn-round-sm font-lg"></i>
+                        <span className="d-none-xss">{displayNumComments ? `${displayNumComments} Comment` : ""}</span>
+                    </a>
                 </div>
-                <a
-                    className="d-flex pointer align-items-center fw-400 text-grey-900 text-dark lh-26 font-xssss"
-                    onClick={toggleComment}
-                >
-                    <i className="feather-message-circle text-dark text-grey-900 btn-round-sm font-lg"></i>
-                    <span className="d-none-xss">{displayNumComments ? `${displayNumComments} Comment` : ""}</span>
-                </a>
-            </div>
+            ) : null}
             {isToggleComment && <Comment postId={id} commentSuccess={commentSuccess} />}
         </div>
     );

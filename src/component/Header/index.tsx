@@ -1,4 +1,3 @@
-import { mainRoutes } from "constants/routePath";
 import React, { Fragment, useState } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { AnyAction, bindActionCreators, Dispatch } from "redux";
@@ -25,7 +24,6 @@ const mapStateToProps = (state: RootState) => {
 
 type PropsType = MapStateToProps<any, any> | MapDispatchToProps<any, Dispatch> | RouteComponentProps;
 
-const mainRoute = Object.values(mainRoutes).map((i) => i);
 const Header = (props: PropsType) => {
     const { user } = props;
     const [isNoti, setIsNoti] = useState(false);
@@ -38,7 +36,13 @@ const Header = (props: PropsType) => {
     };
 
     const goToPersonalPage = () => {
-        window.location.href = `/${user.id}`;
+        window.location.href = `/user/${user.id}`;
+    };
+
+    const onSearch = async (e: any) => {
+        e.preventDefault();
+        const keyword = e.target.querySelector('[name="keyword"]').value;
+        window.location.href = `/search?q=${keyword}`;
     };
 
     const notiClass = `${isNoti ? " show" : ""}`;
@@ -58,28 +62,91 @@ const Header = (props: PropsType) => {
                             </span>{" "}
                         </Link>
                     </div>
-                    {/* <form action="#" className="float-left header-search ms-3">
+                    <form className="float-left header-search ms-3" onSubmit={onSearch}>
                         <div className="form-group mb-0 icon-input">
                             <i className="feather-search font-sm text-grey-400"></i>
                             <input
                                 type="text"
                                 placeholder="Start typing to search.."
                                 className="bg-grey border-0 lh-32 pt-2 pb-2 ps-5 pe-3 font-xssss fw-500 rounded-xl w350 theme-dark-bg"
+                                name="keyword"
                             />
                         </div>
-                    </form> */}
-
-                    <div
-                        className="ms-auto bg-transparent-card d-flex bg-greylight pointer"
-                        style={{ borderRadius: "50px", width: "max-content" }}
-                        onClick={goToPersonalPage}
-                    >
-                        <figure className="avatar me-2 mb-0">
-                            <img src={`assets/images/user.png`} alt="avater" className="shadow-sm rounded-circle w45" />
-                        </figure>
-                        <h4 className="fw-700 text-grey-900 pe-md-3" style={{ fontSize: "14px", marginTop: "13px" }}>
-                            {user.fullName}
-                        </h4>
+                    </form>
+                    <div className="d-flex ms-auto">
+                        {/* <span
+                            className={`p-2 pointer text-center ms-auto menu-icon ${notiClass} me-3`}
+                            id="dropdownMenu3"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                            onClick={toggleisNoti}
+                        >
+                            <span className="dot-count bg-warning"></span>
+                            <i className="feather-bell font-xl text-current"></i>
+                        </span> */}
+                        <div
+                            className={`dropdown-menu p-4 right-0 rounded-xxl border-0 shadow-lg ${notiClass}`}
+                            aria-labelledby="dropdownMenu3"
+                        >
+                            <h4 className="fw-700 font-xss mb-4">Notification</h4>
+                            <div className="card bg-transparent-card w-100 border-0 ps-5 mb-3">
+                                <img
+                                    src="/assets/images/user.png"
+                                    alt="user"
+                                    className="w40 position-absolute left-0"
+                                />
+                                <h5 className="font-xsss text-grey-900 mb-1 mt-0 fw-700 d-block">
+                                    Tâm{" "}
+                                    <span className="text-grey-400 font-xsssss fw-600 float-right mt-1"> 3 min</span>
+                                </h5>
+                                <h6 className="text-grey-500 fw-500 font-xssss lh-4">commented on your review</h6>
+                            </div>
+                            <div className="card bg-transparent-card w-100 border-0 ps-5 mb-3">
+                                <img
+                                    src="/assets/images/user.png"
+                                    alt="user"
+                                    className="w40 position-absolute left-0"
+                                />
+                                <h5 className="font-xsss text-grey-900 mb-1 mt-0 fw-700 d-block">
+                                    Tâm{" "}
+                                    <span className="text-grey-400 font-xsssss fw-600 float-right mt-1"> 2 min</span>
+                                </h5>
+                                <h6 className="text-grey-500 fw-500 font-xssss lh-4">
+                                    has dropped a star for your review
+                                </h6>
+                            </div>
+                            <div className="card bg-transparent-card w-100 border-0 ps-5 mb-3">
+                                <img
+                                    src="/assets/images/user.png"
+                                    alt="user"
+                                    className="w40 position-absolute left-0"
+                                />
+                                <h5 className="font-xsss text-grey-900 mb-1 mt-0 fw-700 d-block">
+                                    Tâm{" "}
+                                    <span className="text-grey-400 font-xsssss fw-600 float-right mt-1"> 2 min</span>
+                                </h5>
+                                <h6 className="text-grey-500 fw-500 font-xssss lh-4">is followed you</h6>
+                            </div>
+                        </div>
+                        <div
+                            className="bg-transparent-card d-flex bg-greylight pointer h-100"
+                            style={{ borderRadius: "50px", width: "max-content" }}
+                            onClick={goToPersonalPage}
+                        >
+                            <figure className="avatar me-2 mb-0">
+                                <img
+                                    src={`/assets/images/user.png`}
+                                    alt="avater"
+                                    className="shadow-sm rounded-circle w45"
+                                />
+                            </figure>
+                            <h4
+                                className="fw-700 text-grey-900 pe-md-3"
+                                style={{ fontSize: "14px", marginTop: "13px" }}
+                            >
+                                {user.fullName}
+                            </h4>
+                        </div>
                     </div>
                 </div>
             ) : null}

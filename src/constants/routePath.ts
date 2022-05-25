@@ -1,7 +1,10 @@
 export const mainRoutes = Object.freeze({
     Home: "/",
+    Message: "/message",
     Setting: "/setting",
-    Personal: "/:id",
+    Personal: "/user/:id",
+    Provider: "/provider/:id",
+    Search: "/search",
 });
 
 export const otherRoutes = Object.freeze({
