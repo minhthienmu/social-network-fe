@@ -5,6 +5,9 @@ export const mainRoutes = Object.freeze({
     Personal: "/user/:id",
     Provider: "/provider/:id",
     Search: "/search",
+    AllProvider: "/allProvider",
+    Follower: "/follower",
+    Following: "/following",
 });
 
 export const otherRoutes = Object.freeze({

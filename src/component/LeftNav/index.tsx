@@ -15,22 +15,42 @@ class Leftnav extends Component {
                                 <li className="logo d-none d-xl-block d-lg-block"></li>
                                 <li>
                                     <Link to="/" className="nav-content-bttn open-font">
-                                        <i className="feather-tv btn-round-md bg-blue-gradiant me-3"></i>
+                                        <i className="feather-edit btn-round-md bg-blue-gradiant me-3"></i>
                                         <span>Feed</span>
                                     </Link>
                                 </li>
-                                {/* <li>
-                                    <Link to="/myfeed" className="nav-content-bttn open-font">
-                                        <i className="feather-award btn-round-md bg-red-gradiant me-3"></i>
-                                        <span>My feed</span>
+                                <li>
+                                    <Link to="/allProvider" className="nav-content-bttn open-font">
+                                        <i className="feather-home btn-round-md bg-red-gradiant me-3"></i>
+                                        <span>Providers</span>
                                     </Link>
                                 </li>
-                                <li>
+                                {/*<li>
                                     <Link to="/followers" className="nav-content-bttn open-font">
                                         <i className="feather-award btn-round-md bg-red-gradiant me-3"></i>
                                         <span>Followers</span>
                                     </Link>
                                 </li> */}
+                            </ul>
+                        </div>
+
+                        <div className="nav-wrap bg-white bg-transparent-card rounded-xxl shadow-xss pt-3 pb-1 mb-2">
+                            <div className="nav-caption fw-600 font-xssss text-grey-500">
+                                <span>Personal </span>
+                            </div>
+                            <ul className="mb-3">
+                                <li>
+                                    <Link to="/follower" className="nav-content-bttn open-font">
+                                        <i className="font-xl text-current feather-users me-3"></i>
+                                        <span>Follower</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/following" className="nav-content-bttn open-font">
+                                        <i className="font-xl text-current feather-users me-3"></i>
+                                        <span>Following</span>
+                                    </Link>
+                                </li>
                             </ul>
                         </div>
 
