@@ -78,7 +78,7 @@ const Comment = (props: Props) => {
             <form onSubmit={onComment}>
                 <div className="position-relative mb-2">
                     <figure className="avatar position-absolute mt-1 top-5 left-5">
-                        <img src="assets/images/user.png" alt="icon" className="shadow-sm rounded-circle w30" />
+                        <img src="/assets/images/user.png" alt="icon" className="shadow-sm rounded-circle w30" />
                     </figure>
                     <input
                         className="bor-0 w-100 rounded-xxl p-2 ps-5 font-xssss text-content fw-500 border-light-md theme-dark-bg"
