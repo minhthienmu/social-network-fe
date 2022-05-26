@@ -54,3 +54,9 @@ export const unfollowMutation = gql`
         unfollow(unfollowerId: $unfollowerId, followingId: $followingId)
     }
 `;
+
+export const sendMessageMutation = gql`
+    mutation sendMessage($message: String) {
+        sendMessage(message: $message)
+    }
+`;

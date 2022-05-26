@@ -5,6 +5,9 @@ import { connect, MapDispatchToProps, MapStateToProps } from "react-redux";
 import { RootState } from "store";
 import { setIsLoggedIn } from "store/auth/action";
 import { setUser } from "store/user/action";
+import { useSubscription } from "@apollo/client";
+import { notificationSubscription } from "graphql/sub";
+//import isEqual from "react-fast-compare";
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
     bindActionCreators(
@@ -24,15 +27,21 @@ const mapStateToProps = (state: RootState) => {
 
 type PropsType = MapStateToProps<any, any> | MapDispatchToProps<any, Dispatch> | RouteComponentProps;
 
+//let currentNoti: any = null;
+
 const Header = (props: PropsType) => {
     const { user } = props;
     const [isNoti, setIsNoti] = useState(false);
+    const [isNewNoti, setIsNewNoti] = useState(false);
+    const { data: notification, loading } = useSubscription(notificationSubscription, {
+        variables: {
+            userId: user.id,
+        },
+    });
 
-    const toggleisNoti = () => setIsNoti(!isNoti);
-
-    const logOut = () => {
-        props.setIsLoggedIn(false);
-        props.history.push("/login");
+    const toggleisNoti = () => {
+        setIsNoti(!isNoti);
+        setIsNewNoti(false);
     };
 
     const goToPersonalPage = () => {
@@ -44,6 +53,24 @@ const Header = (props: PropsType) => {
         const keyword = e.target.querySelector('[name="keyword"]').value;
         window.location.href = `/search?q=${keyword}`;
     };
+
+    if (!loading) {
+        console.log(notification);
+        if (notification && isNewNoti === false) {
+            setIsNewNoti(true);
+            const notificationObj = {
+                fromUserId: notification.notification.fromUserId,
+                postId: notification.notification.postId,
+                toUserId: notification.notification.toUserId,
+                type: notification.notification.type,
+            };
+            // if (!isEqual(currentNoti, noficationObj)) {
+            //     console.log("vô đây");
+            //     currentNoti = { ...noficationObj };
+            //     setIsNewNoti(true);
+            // }
+        }
+    }
 
     const notiClass = `${isNoti ? " show" : ""}`;
 
@@ -74,16 +101,16 @@ const Header = (props: PropsType) => {
                         </div>
                     </form>
                     <div className="d-flex ms-auto">
-                        {/* <span
-                            className={`p-2 pointer text-center ms-auto menu-icon ${notiClass} me-3`}
+                        <span
+                            className={`p-2 pointer text-center ms-auto menu-icon me-3`}
                             id="dropdownMenu3"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
                             onClick={toggleisNoti}
                         >
-                            <span className="dot-count bg-warning"></span>
+                            {isNewNoti ? <span className="dot-count bg-warning"></span> : null}
                             <i className="feather-bell font-xl text-current"></i>
-                        </span> */}
+                        </span>
                         <div
                             className={`dropdown-menu p-4 right-0 rounded-xxl border-0 shadow-lg ${notiClass}`}
                             aria-labelledby="dropdownMenu3"
@@ -154,4 +181,4 @@ const Header = (props: PropsType) => {
     );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Header));
