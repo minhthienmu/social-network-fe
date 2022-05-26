@@ -138,3 +138,23 @@ export const queryGetAllNotification = gql`
         }
     }
 `;
+
+export const queryFollower = gql`
+    query queryFollower($userId: ID!, $last: Int) {
+        follower(userId: $userId, last: $last) {
+            id
+            fullName
+            avatar
+        }
+    }
+`;
+
+export const queryFollowing = gql`
+    query queryFollowing($userId: ID!, $last: Int) {
+        following(userId: $userId, last: $last) {
+            id
+            fullName
+            avatar
+        }
+    }
+`;

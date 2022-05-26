@@ -12,6 +12,9 @@ const Setting = lazy(() => import("pages/Setting"));
 const Message = lazy(() => import("pages/Message"));
 const Provider = lazy(() => import("pages/Provider"));
 const Search = lazy(() => import("pages/Search"));
+const AllProvider = lazy(() => import("pages/AllProvider"));
+const Follower = lazy(() => import("pages/Follower"));
+const Following = lazy(() => import("pages/Following"));
 
 export const Routes = () => {
     return (
@@ -25,6 +28,9 @@ export const Routes = () => {
                 <PrivateRoute path={mainRoutes.Provider} exact component={Provider} />
                 <PrivateRoute path={mainRoutes.Personal} exact component={Personal} />
                 <PrivateRoute path={mainRoutes.Search} exact component={Search} />
+                <PrivateRoute path={mainRoutes.AllProvider} exact component={AllProvider} />
+                <PrivateRoute path={mainRoutes.Follower} exact component={Follower} />
+                <PrivateRoute path={mainRoutes.Following} exact component={Following} />
             </Switch>
         </Suspense>
     );
