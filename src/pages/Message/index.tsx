@@ -18,7 +18,7 @@ const Message = (props: Props) => {
                                             <div className="message-item">
                                                 <div className="message-user">
                                                     <figure className="avatar">
-                                                        <img src="assets/images/user.png" alt="avater" />
+                                                        <img src="/assets/images/user.png" alt="avater" />
                                                     </figure>
                                                     <div>
                                                         <h5>Tâm</h5>
@@ -31,7 +31,7 @@ const Message = (props: Props) => {
                                             <div className="message-item outgoing-message">
                                                 <div className="message-user">
                                                     <figure className="avatar">
-                                                        <img src="assets/images/user.png" alt="avater" />
+                                                        <img src="/assets/images/user.png" alt="avater" />
                                                     </figure>
                                                     <div>
                                                         <h5>Trần Minh Thiện</h5>
@@ -44,7 +44,7 @@ const Message = (props: Props) => {
                                             <div className="message-item">
                                                 <div className="message-user">
                                                     <figure className="avatar">
-                                                        <img src="assets/images/user.png" alt="avater" />
+                                                        <img src="/assets/images/user.png" alt="avater" />
                                                     </figure>
                                                     <div>
                                                         <h5>Tâm</h5>
@@ -57,7 +57,7 @@ const Message = (props: Props) => {
                                             <div className="message-item outgoing-message">
                                                 <div className="message-user">
                                                     <figure className="avatar">
-                                                        <img src="assets/images/user.png" alt="avater" />
+                                                        <img src="/assets/images/user.png" alt="avater" />
                                                     </figure>
                                                     <div>
                                                         <h5>Trần Minh Thiện</h5>

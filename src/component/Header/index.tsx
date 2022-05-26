@@ -5,15 +5,18 @@ import { connect, MapDispatchToProps, MapStateToProps } from "react-redux";
 import { RootState } from "store";
 import { setIsLoggedIn } from "store/auth/action";
 import { setUser } from "store/user/action";
-import { useSubscription } from "@apollo/client";
+import { setNewNotification } from "store/notification/action";
+import { useLazyQuery, useSubscription } from "@apollo/client";
 import { notificationSubscription } from "graphql/sub";
-//import isEqual from "react-fast-compare";
+import { queryGetAllNotification } from "graphql/query";
+import isEqual from "react-fast-compare";
 
 const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
     bindActionCreators(
         {
             setIsLoggedIn,
             setUser,
+            setNewNotification,
         },
         dispatch,
     );
@@ -22,6 +25,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         isLoggedIn: state.authReducer?.isLoggedIn,
         user: state.userReducer?.user,
+        newNotification: state.notificationReducer?.notification,
     };
 };
 
@@ -30,7 +34,7 @@ type PropsType = MapStateToProps<any, any> | MapDispatchToProps<any, Dispatch> |
 //let currentNoti: any = null;
 
 const Header = (props: PropsType) => {
-    const { user } = props;
+    const { user, newNotification } = props;
     const [isNoti, setIsNoti] = useState(false);
     const [isNewNoti, setIsNewNoti] = useState(false);
     const { data: notification, loading } = useSubscription(notificationSubscription, {
@@ -38,10 +42,19 @@ const Header = (props: PropsType) => {
             userId: user.id,
         },
     });
+    const [getAllNotification] = useLazyQuery(queryGetAllNotification);
+    const [listNotification, setListNotification] = useState([]);
 
-    const toggleisNoti = () => {
-        setIsNoti(!isNoti);
+    const toggleisNoti = async () => {
         setIsNewNoti(false);
+        const res = await getAllNotification({
+            variables: {
+                userId: user.id,
+                last: 5,
+            },
+        });
+        setListNotification(res.data.notification);
+        setIsNoti(!isNoti);
     };
 
     const goToPersonalPage = () => {
@@ -54,21 +67,24 @@ const Header = (props: PropsType) => {
         window.location.href = `/search?q=${keyword}`;
     };
 
+    const renderNotificationDescription = (type: string) => {
+        switch (type) {
+            case "like":
+                return "liked your post";
+            case "comment":
+                return "commented on your post";
+            case "follow":
+                return "followed you";
+        }
+    };
+
     if (!loading) {
-        console.log(notification);
         if (notification && isNewNoti === false) {
-            setIsNewNoti(true);
-            const notificationObj = {
-                fromUserId: notification.notification.fromUserId,
-                postId: notification.notification.postId,
-                toUserId: notification.notification.toUserId,
-                type: notification.notification.type,
-            };
-            // if (!isEqual(currentNoti, noficationObj)) {
-            //     console.log("vô đây");
-            //     currentNoti = { ...noficationObj };
-            //     setIsNewNoti(true);
-            // }
+            if (!isEqual(newNotification, notification.notification)) {
+                const newNoti = { ...notification.notification };
+                props.setNewNotification(newNoti);
+                setIsNewNoti(true);
+            }
         }
     }
 
@@ -116,44 +132,27 @@ const Header = (props: PropsType) => {
                             aria-labelledby="dropdownMenu3"
                         >
                             <h4 className="fw-700 font-xss mb-4">Notification</h4>
-                            <div className="card bg-transparent-card w-100 border-0 ps-5 mb-3">
-                                <img
-                                    src="/assets/images/user.png"
-                                    alt="user"
-                                    className="w40 position-absolute left-0"
-                                />
-                                <h5 className="font-xsss text-grey-900 mb-1 mt-0 fw-700 d-block">
-                                    Tâm{" "}
-                                    <span className="text-grey-400 font-xsssss fw-600 float-right mt-1"> 3 min</span>
-                                </h5>
-                                <h6 className="text-grey-500 fw-500 font-xssss lh-4">commented on your review</h6>
-                            </div>
-                            <div className="card bg-transparent-card w-100 border-0 ps-5 mb-3">
-                                <img
-                                    src="/assets/images/user.png"
-                                    alt="user"
-                                    className="w40 position-absolute left-0"
-                                />
-                                <h5 className="font-xsss text-grey-900 mb-1 mt-0 fw-700 d-block">
-                                    Tâm{" "}
-                                    <span className="text-grey-400 font-xsssss fw-600 float-right mt-1"> 2 min</span>
-                                </h5>
-                                <h6 className="text-grey-500 fw-500 font-xssss lh-4">
-                                    has dropped a star for your review
-                                </h6>
-                            </div>
-                            <div className="card bg-transparent-card w-100 border-0 ps-5 mb-3">
-                                <img
-                                    src="/assets/images/user.png"
-                                    alt="user"
-                                    className="w40 position-absolute left-0"
-                                />
-                                <h5 className="font-xsss text-grey-900 mb-1 mt-0 fw-700 d-block">
-                                    Tâm{" "}
-                                    <span className="text-grey-400 font-xsssss fw-600 float-right mt-1"> 2 min</span>
-                                </h5>
-                                <h6 className="text-grey-500 fw-500 font-xssss lh-4">is followed you</h6>
-                            </div>
+                            {listNotification.map((item: any) => {
+                                return (
+                                    <div className="card bg-transparent-card w-100 border-0 ps-5 mb-3" key={item.id}>
+                                        <img
+                                            src="/assets/images/user.png"
+                                            alt="user"
+                                            className="w40 position-absolute left-0"
+                                        />
+                                        <h5 className="font-xsss text-grey-900 mb-1 mt-0 fw-700 d-block">
+                                            {item.fromUserFullName}{" "}
+                                            {/* <span className="text-grey-400 font-xsssss fw-600 float-right mt-1">
+                                                {" "}
+                                                3 min
+                                            </span> */}
+                                        </h5>
+                                        <h6 className="text-grey-500 fw-500 font-xssss lh-4">
+                                            {renderNotificationDescription(item.type)}
+                                        </h6>
+                                    </div>
+                                );
+                            })}
                         </div>
                         <div
                             className="bg-transparent-card d-flex bg-greylight pointer h-100"

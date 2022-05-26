@@ -125,3 +125,16 @@ export const querySearch = gql`
         }
     }
 `;
+
+export const queryGetAllNotification = gql`
+    query QueryGetAllNotification($userId: ID!, $last: Int) {
+        notification(userId: $userId, last: $last) {
+            id
+            fromUserId
+            toUserId
+            fromUserFullName
+            postId
+            type
+        }
+    }
+`;
