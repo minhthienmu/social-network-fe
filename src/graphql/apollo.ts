@@ -10,7 +10,8 @@ const httpLink = new HttpLink({
 
 const wsLink = new GraphQLWsLink(
     createClient({
-        url: "ws://riviu-be-bbxu5.ondigitalocean.app/graphql",
+        //url: "ws://localhost:8008/graphql",
+        url: "wss://riviu-be-bbxu5.ondigitalocean.app/graphql",
     }),
 );
 
