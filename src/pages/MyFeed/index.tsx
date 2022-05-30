@@ -16,14 +16,14 @@ const mapStateToProps = (state: RootState) => {
 
 interface Props extends ReturnType<typeof mapStateToProps> {}
 
-const Home = (props: Props) => {
-    //const [allPost, setAllPost] = useState([]);
+const MyFeed = (props: Props) => {
     const { user } = props;
-    const { loading, error, data, refetch } = useQuery(queryAllPost, {
+    const { loading, data, refetch } = useQuery(queryAllPost, {
         variables: {
             request: {
                 currentUserId: user.id,
                 last: 0,
+                myFeed: true,
             },
         },
     });
@@ -57,26 +57,27 @@ const Home = (props: Props) => {
         );
     }
 
-    const allPost: any = data.allPost.map((post: any) => {
-        return {
-            id: post.id,
-            userId: post.userId,
-            providerId: post.providerId,
-            providerName: post.providerName,
-            serviceId: post.serviceId,
-            serviceName: post.serviceName,
-            postVideo: "",
-            postImage: post.image,
-            avatar: post.avatar ?? "user.png",
-            user: post.userFullName,
-            time: "",
-            description: post.description,
-            rate: post.rate,
-            numLikes: post.numLikes ?? 0,
-            numComments: post.numComments ?? 0,
-            isLikeByUser: post.isLikeByUser,
-        };
-    });
+    const allPost: any =
+        data?.allPost?.map((post: any) => {
+            return {
+                id: post.id,
+                userId: post.userId,
+                providerId: post.providerId,
+                providerName: post.providerName,
+                serviceId: post.serviceId,
+                serviceName: post.serviceName,
+                postVideo: "",
+                postImage: post.image,
+                avatar: post.avatar ?? "user.png",
+                user: post.userFullName,
+                time: "",
+                description: post.description,
+                rate: post.rate,
+                numLikes: post.numLikes ?? 0,
+                numComments: post.numComments ?? 0,
+                isLikeByUser: post.isLikeByUser,
+            };
+        }) ?? [];
 
     return (
         <Fragment>
@@ -86,7 +87,6 @@ const Home = (props: Props) => {
                     <div className="middle-sidebar-left">
                         <div className="row feed-body">
                             <div className="col-xl-10 col-xxl-10 col-lg-10">
-                                <CreatePost createPostSuccess={createPostSuccess} />
                                 {allPost.map((post: any) => {
                                     return (
                                         <PostView
@@ -120,4 +120,4 @@ const Home = (props: Props) => {
     );
 };
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps)(MyFeed);

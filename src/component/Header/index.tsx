@@ -128,6 +128,7 @@ const Header = (props: PropsType) => {
                         <div
                             className={`dropdown-menu p-4 right-0 rounded-xxl border-0 shadow-lg ${notiClass}`}
                             aria-labelledby="dropdownMenu3"
+                            style={{ marginRight: "40px" }}
                         >
                             <h4 className="fw-700 font-xss mb-4">Notification</h4>
                             {listNotification.map((item: any) => {
