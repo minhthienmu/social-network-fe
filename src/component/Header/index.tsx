@@ -90,7 +90,7 @@ const Header = (props: PropsType) => {
 
     return (
         <>
-            {props.isLoggedIn ? (
+            {props.isLoggedIn && window.location.pathname !== "/admin" ? (
                 <div className="nav-header bg-white shadow-xs border-0">
                     <div className="nav-top">
                         <Link to="/">

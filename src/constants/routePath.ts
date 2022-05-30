@@ -14,3 +14,7 @@ export const otherRoutes = Object.freeze({
     Login: "/login",
     Register: "/register",
 });
+
+export const adminRoutes = Object.freeze({
+    Admin: "/admin",
+});

@@ -1,46 +1,17 @@
 import React, { Fragment } from "react";
-import { useMutation } from "@apollo/client";
-import { RouteComponentProps } from "react-router-dom";
-import { loginMutation } from "graphql/mutation";
-import { connect } from "react-redux";
-import { AnyAction, bindActionCreators, Dispatch } from "redux";
-import { setIsLoggedIn } from "store/auth/action";
-import { setUser } from "store/user/action";
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
-    bindActionCreators(
-        {
-            setIsLoggedIn,
-            setUser,
-        },
-        dispatch,
-    );
+interface Props {
+    login: (username: string, password: string) => void;
+}
 
-interface Props extends ReturnType<typeof mapDispatchToProps>, RouteComponentProps {}
-
-const Login = (props: Props) => {
-    const [login, { loading, error }] = useMutation(loginMutation);
+const LoginAdmin = (props: Props) => {
+    const { login } = props;
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
         const username = e.target.querySelector('[name="username"]').value;
         const password = e.target.querySelector('[name="password"]').value;
-        try {
-            const res = await login({
-                variables: {
-                    username,
-                    password,
-                },
-            });
-            if (res.data.login) {
-                const { user } = res.data.login;
-                props.setUser(user);
-                props.setIsLoggedIn(true);
-                props.history.push("/");
-            }
-        } catch (error) {
-            console.log(error);
-        }
+        login(username, password);
     };
 
     return (
@@ -57,16 +28,11 @@ const Login = (props: Props) => {
                     </div>
                 </div>
                 <div className="row">
-                    {/* <div
-                        className="col-xl-5 d-none d-xl-block p-0 vh-100 bg-image-cover bg-no-repeat"
-                        style={{ backgroundImage: `url("https://via.placeholder.com/800x950.png")` }}
-                    ></div> */}
                     <div className="col-xl-12 vh-100 align-items-center d-flex bg-white rounded-3 overflow-hidden">
                         <div className="card shadow-none border-0 ms-auto me-auto login-card">
                             <div className="card-body rounded-0 text-left">
                                 <h2 className="fw-700 display1-size display2-md-size mb-3">
-                                    Login into <br />
-                                    your account
+                                    Login Admin <br />
                                 </h2>
                                 <form onSubmit={onSubmit}>
                                     <div className="form-group icon-input mb-3">
@@ -87,30 +53,15 @@ const Login = (props: Props) => {
                                         />
                                         <i className="font-sm ti-lock text-grey-500 pe-0"></i>
                                     </div>
-                                    {/* <div className="form-check text-left mb-3">
-                                        <input type="checkbox" className="form-check-input mt-2" id="exampleCheck5" />
-                                        <label className="form-check-label font-xsss text-grey-500">Remember me</label>
-                                        <a href="/login" className="fw-600 font-xsss text-grey-700 mt-1 float-right">
-                                            Forgot your Password?
-                                        </a>
-                                    </div> */}
                                     <div className="col-sm-12 p-0 text-left">
                                         <div className="form-group mb-1">
                                             <button
-                                                className={`form-control text-center style2-input text-white fw-600 bg-dark border-0 p-0 ${
-                                                    loading ? "disable-button" : ""
+                                                className={`form-control text-center style2-input text-white fw-600 bg-dark border-0 p-0
                                                 }`}
-                                                disabled={loading}
                                             >
                                                 Login
                                             </button>
                                         </div>
-                                        <h6 className="text-grey-500 font-xsss fw-500 mt-0 mb-0 lh-32">
-                                            Dont have account{" "}
-                                            <a href="/register" className="fw-700 ms-1">
-                                                Register
-                                            </a>
-                                        </h6>
                                     </div>
                                 </form>
                             </div>
@@ -122,4 +73,4 @@ const Login = (props: Props) => {
     );
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default React.memo(LoginAdmin);

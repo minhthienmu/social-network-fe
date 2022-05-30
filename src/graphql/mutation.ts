@@ -13,6 +13,12 @@ export const loginMutation = gql`
     }
 `;
 
+export const loginAdminMutation = gql`
+    mutation LoginAdmin($username: String!, $password: String!) {
+        loginAdmin(username: $username, password: $password)
+    }
+`;
+
 export const registerMutation = gql`
     mutation Register($request: RegisterRequest) {
         register(request: $request)

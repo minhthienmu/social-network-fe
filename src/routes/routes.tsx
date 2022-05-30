@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Switch } from "react-router-dom";
-import { mainRoutes, otherRoutes } from "../constants/routePath";
+import { mainRoutes, otherRoutes, adminRoutes } from "../constants/routePath";
+import AdminRoute from "./AdminRoutes";
 import AuthRoute from "./AuthRoutes";
 import PrivateRoute from "./PrivateRoutes";
 
@@ -15,6 +16,7 @@ const Search = lazy(() => import("pages/Search"));
 const AllProvider = lazy(() => import("pages/AllProvider"));
 const Follower = lazy(() => import("pages/Follower"));
 const Following = lazy(() => import("pages/Following"));
+const Admin = lazy(() => import("pages/Admin"));
 
 export const Routes = () => {
     return (
@@ -31,6 +33,7 @@ export const Routes = () => {
                 <PrivateRoute path={mainRoutes.AllProvider} exact component={AllProvider} />
                 <PrivateRoute path={mainRoutes.Follower} exact component={Follower} />
                 <PrivateRoute path={mainRoutes.Following} exact component={Following} />
+                <AdminRoute path={adminRoutes.Admin} exact component={Admin} />
             </Switch>
         </Suspense>
     );
