@@ -9,6 +9,7 @@ export const mainRoutes = Object.freeze({
     AllProvider: "/allProvider",
     Follower: "/follower",
     Following: "/following",
+    ChangePassword: "/changepassword",
 });
 
 export const otherRoutes = Object.freeze({
