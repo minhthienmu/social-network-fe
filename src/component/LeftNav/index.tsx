@@ -20,6 +20,12 @@ class Leftnav extends Component {
                                     </Link>
                                 </li>
                                 <li>
+                                    <Link to="/" className="nav-content-bttn open-font">
+                                        <i className="feather-edit btn-round-md bg-gold-gradiant me-3"></i>
+                                        <span>My Feed</span>
+                                    </Link>
+                                </li>
+                                <li>
                                     <Link to="/allProvider" className="nav-content-bttn open-font">
                                         <i className="feather-home btn-round-md bg-red-gradiant me-3"></i>
                                         <span>Providers</span>
@@ -49,6 +55,12 @@ class Leftnav extends Component {
                                     <Link to="/following" className="nav-content-bttn open-font">
                                         <i className="font-xl text-current feather-users me-3"></i>
                                         <span>Following</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/message" className="nav-content-bttn open-font">
+                                        <i className="font-xl text-current feather-message-square me-3"></i>
+                                        <span>Chat</span>
                                     </Link>
                                 </li>
                             </ul>

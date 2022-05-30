@@ -9,6 +9,8 @@ import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, useParams } from "react-router-dom";
 import { RootState } from "store";
+import { AnyAction, bindActionCreators, Dispatch } from "redux";
+import { setNewChatRoom } from "store/chatRoom/action";
 
 const mapStateToProps = (state: RootState) => {
     return {
@@ -16,7 +18,18 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-interface Props extends RouteComponentProps, ReturnType<typeof mapStateToProps> {}
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) =>
+    bindActionCreators(
+        {
+            setNewChatRoom,
+        },
+        dispatch,
+    );
+
+interface Props
+    extends RouteComponentProps,
+        ReturnType<typeof mapStateToProps>,
+        ReturnType<typeof mapDispatchToProps> {}
 
 const Personal = (props: Props) => {
     const { id } = useParams<{ id: string }>();
@@ -85,6 +98,16 @@ const Personal = (props: Props) => {
             },
         });
         setIsFollowed(!isFollowed);
+    };
+
+    const onMessage = async () => {
+        props.setNewChatRoom({
+            id: null,
+            userId: id,
+            name: userInfo.fullName,
+            avatar: userInfo.avatar,
+        });
+        window.location.href = "/message";
     };
 
     if (loading) {
@@ -159,6 +182,7 @@ const Personal = (props: Props) => {
                                     follow={onFollow}
                                     unfollow={onUnfollow}
                                     isFollowed={isFollowed}
+                                    onMessage={onMessage}
                                 />
                             </div>
                             {/* <a href="/" className="btn-round-md ms-2 bg-greylight theme-dark-bg rounded-3">
@@ -202,4 +226,4 @@ const Personal = (props: Props) => {
     );
 };
 
-export default connect(mapStateToProps)(React.memo(Personal));
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Personal));

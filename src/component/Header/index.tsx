@@ -31,8 +31,6 @@ const mapStateToProps = (state: RootState) => {
 
 type PropsType = MapStateToProps<any, any> | MapDispatchToProps<any, Dispatch> | RouteComponentProps;
 
-//let currentNoti: any = null;
-
 const Header = (props: PropsType) => {
     const { user, newNotification } = props;
     const [isNoti, setIsNoti] = useState(false);

@@ -158,3 +158,28 @@ export const queryFollowing = gql`
         }
     }
 `;
+
+export const queryChatContact = gql`
+    query QueryChatContact($userId: ID!) {
+        chatContact(userId: $userId) {
+            id
+            avatar
+            userId
+            userFullName
+            lastMessage
+            date
+        }
+    }
+`;
+
+export const queryMessage = gql`
+    query QueryMessage($chatRoomId: ID!, $last: Int) {
+        message(chatRoomId: $chatRoomId, last: $last) {
+            id
+            from
+            message
+            to
+            date
+        }
+    }
+`;

@@ -12,3 +12,16 @@ export const notificationSubscription = gql`
         }
     }
 `;
+
+export const messageSubscription = gql`
+    subscription MessageSubscription($userId: ID!) {
+        message(userId: $userId) {
+            id
+            from
+            to
+            message
+            date
+            chatRoomId
+        }
+    }
+`;

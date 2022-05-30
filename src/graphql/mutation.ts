@@ -56,7 +56,7 @@ export const unfollowMutation = gql`
 `;
 
 export const sendMessageMutation = gql`
-    mutation sendMessage($message: String) {
-        sendMessage(message: $message)
+    mutation sendMessage($request: SendMessageRequest) {
+        sendMessage(request: $request)
     }
 `;
