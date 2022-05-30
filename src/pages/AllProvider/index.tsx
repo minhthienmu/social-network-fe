@@ -37,13 +37,13 @@ const AllProvider = (props: Props) => {
                                                     <div className="card-body d-block w-100 p-4 text-center">
                                                         <figure className="avatar ms-auto me-auto mb-0 position-relative w90 z-index-1">
                                                             <img
-                                                                src={`assets/images/user.png`}
+                                                                src={`/assets/images/user.png`}
                                                                 alt="avater"
                                                                 className="float-right p-1 bg-white rounded-circle w-100"
                                                             />
                                                         </figure>
                                                         <div className="clearfix"></div>
-                                                        <a href={`/user/${item.id}`}>
+                                                        <a href={`/provider/${item.id}`}>
                                                             <h4 className="fw-700 font-xss mt-3 mb-0">{item.name} </h4>
                                                         </a>
                                                     </div>

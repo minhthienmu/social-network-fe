@@ -183,3 +183,16 @@ export const queryMessage = gql`
         }
     }
 `;
+
+export const queryAllUser = gql`
+    query QueryAllUser {
+        allUser {
+            id
+            username
+            fullName
+            email
+            birthday
+            phoneNumber
+        }
+    }
+`;
