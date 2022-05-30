@@ -20,7 +20,7 @@ class Leftnav extends Component {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/" className="nav-content-bttn open-font">
+                                    <Link to="/myfeed" className="nav-content-bttn open-font">
                                         <i className="feather-edit btn-round-md bg-gold-gradiant me-3"></i>
                                         <span>My Feed</span>
                                     </Link>

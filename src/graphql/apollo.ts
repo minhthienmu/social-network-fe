@@ -4,14 +4,14 @@ import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { createClient } from "graphql-ws";
 
 const httpLink = new HttpLink({
-    //uri: "http://localhost:8008/graphql",
-    uri: "https://riviu-be-bbxu5.ondigitalocean.app/graphql",
+    uri: "http://localhost:8008/graphql",
+    //uri: "https://riviu-be-bbxu5.ondigitalocean.app/graphql",
 });
 
 const wsLink = new GraphQLWsLink(
     createClient({
-        //url: "ws://localhost:8008/graphql",
-        url: "wss://riviu-be-bbxu5.ondigitalocean.app/graphql",
+        url: "ws://localhost:8008/graphql",
+        //url: "wss://riviu-be-bbxu5.ondigitalocean.app/graphql",
     }),
 );
 

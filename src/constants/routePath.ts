@@ -1,5 +1,6 @@
 export const mainRoutes = Object.freeze({
     Home: "/",
+    MyFeed: "/myfeed",
     Message: "/message",
     Setting: "/setting",
     Personal: "/user/:id",

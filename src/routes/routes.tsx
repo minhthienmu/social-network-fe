@@ -17,6 +17,7 @@ const AllProvider = lazy(() => import("pages/AllProvider"));
 const Follower = lazy(() => import("pages/Follower"));
 const Following = lazy(() => import("pages/Following"));
 const Admin = lazy(() => import("pages/Admin"));
+const MyFeed = lazy(() => import("pages/MyFeed"));
 
 export const Routes = () => {
     return (
@@ -33,6 +34,7 @@ export const Routes = () => {
                 <PrivateRoute path={mainRoutes.AllProvider} exact component={AllProvider} />
                 <PrivateRoute path={mainRoutes.Follower} exact component={Follower} />
                 <PrivateRoute path={mainRoutes.Following} exact component={Following} />
+                <PrivateRoute path={mainRoutes.MyFeed} exact component={MyFeed} />
                 <AdminRoute path={adminRoutes.Admin} exact component={Admin} />
             </Switch>
         </Suspense>
