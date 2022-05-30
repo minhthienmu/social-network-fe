@@ -15774,7 +15774,6 @@ select.sort {
   opacity: 0.08;
   width: 100%;
   height: 100%;
-  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -15787,7 +15786,7 @@ select.sort {
   font-size: 14px;
   padding: 0 15px;
   line-height: 40px;
-  color: #ddd;
+  color: #000000;
   font-weight: 500;
 }
 .chat-form button {

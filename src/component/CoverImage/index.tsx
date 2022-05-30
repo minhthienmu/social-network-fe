@@ -8,10 +8,11 @@ interface Props {
     isFollowed?: boolean;
     follow?: () => void;
     unfollow?: () => void;
+    onMessage?: () => void;
 }
 
 const CoverImage = (props: Props) => {
-    const { userFullName, birthday, phoneNumber, itsMe = true, isFollowed, follow, unfollow } = props;
+    const { userFullName, birthday, phoneNumber, itsMe = true, isFollowed, follow, unfollow, onMessage } = props;
     return (
         <div className="card w-100 border-0 p-0 bg-white shadow-xss rounded-xxl">
             <div className="card-body h250 p-0 rounded-xxl overflow-hidden m-3">
@@ -47,7 +48,12 @@ const CoverImage = (props: Props) => {
                                 Follow
                             </button>
                         )}
-
+                        <button
+                            className="d-none d-lg-block bg-success p-3 z-index-1 rounded-3 text-white font-xsssss text-uppercase fw-700 ls-3 no-border ms-sm-2"
+                            onClick={onMessage}
+                        >
+                            Message
+                        </button>
                         {/* <a
                         href="/defaultemailbox"
                         className="d-none d-lg-block bg-greylight btn-round-lg ms-2 rounded-3 text-grey-700"

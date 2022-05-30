@@ -5,11 +5,15 @@ import storage from "redux-persist/lib/storage";
 import authReducer from "./auth/authReducer";
 import userReducer from "./user/userReducer";
 import notificationReducer from "./notification/notificationReducer";
+import messageReducer from "./message/messageReducer";
+import chatRoomReducer from "./chatRoom/chatRoomReducer";
 
 const rootReducer = combineReducers({
     authReducer,
     userReducer,
     notificationReducer,
+    messageReducer,
+    chatRoomReducer,
 });
 
 const persistConfig = {
