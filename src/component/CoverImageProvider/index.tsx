@@ -32,7 +32,9 @@ const CoverImageProvider = (props: Props) => {
                                       key={service.serviceId}
                                       className="d-none d-lg-block bg-success p-3 z-index-1 rounded-3 text-white font-xsssss text-uppercase fw-700 ls-3 ms-lg-1"
                                   >
-                                      {service.serviceName} {(service.sumRating / service.totalRating).toFixed(1)}
+                                      {service.serviceName} {(service.sumRating / service.totalRating).toFixed(1)}{" "}
+                                      <br></br>
+                                      <span>{service.totalRating} rating</span>
                                   </a>
                               );
                           })

@@ -66,3 +66,9 @@ export const sendMessageMutation = gql`
         sendMessage(request: $request)
     }
 `;
+
+export const changePasswordMutation = gql`
+    mutation changePassword($userId: ID!, $oldPassword: String!, $newPassword: String!) {
+        changePassword(userId: $userId, oldPassword: $oldPassword, newPassword: $newPassword)
+    }
+`;
