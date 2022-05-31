@@ -102,7 +102,7 @@ const Search = (props: Props) => {
                                                 />
                                             </figure>
                                             <div className="clearfix"></div>
-                                            <a href={`/user/${item.id}`}>
+                                            <a href={`/provider/${item.id}`}>
                                                 <h4 className="fw-700 font-xss mt-3 mb-0">{item.name} </h4>
                                             </a>
                                         </div>
