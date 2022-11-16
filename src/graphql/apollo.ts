@@ -5,13 +5,13 @@ import { createClient } from "graphql-ws";
 
 const httpLink = new HttpLink({
     //uri: "http://localhost:8008/graphql",
-    uri: "https://riviu-be-bbxu5.ondigitalocean.app/graphql",
+    uri: "https://shark-app-mqows.ondigitalocean.app/graphql",
 });
 
 const wsLink = new GraphQLWsLink(
     createClient({
         //url: "ws://localhost:8008/graphql",
-        url: "wss://riviu-be-bbxu5.ondigitalocean.app/graphql",
+        url: "wss://shark-app-mqows.ondigitalocean.app/graphql",
     }),
 );
 
